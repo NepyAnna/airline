@@ -7,15 +7,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+
 @Entity(name = "profiles")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_profile")
-    private Long id_profile;
+    private Long idProfile;
 
     private String email;
     private String address;
@@ -26,9 +34,6 @@ public class Profile {
     @OneToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
-
-    public Profile() {
-    }
 
     public Profile(String email, String address, User user) {
         this.email = email;

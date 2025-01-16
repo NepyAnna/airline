@@ -1,21 +1,26 @@
 package com.sheoanna.airline.airport;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
 @Entity
-@Table(name="airports")
+@Table(name = "airports")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Airport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long idAirport;
 
-    @Column(name = "name_airport", length = 100)
+    @Column(name = "name_airport", nullable = false, length = 100)
     private String nameAirport;
 
     @Column(name = "code_iata_airport", length = 10)
-    private String code_iata;
+    private String codeIata;
 
-    public Airport(){}
 }

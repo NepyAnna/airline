@@ -1,41 +1,45 @@
 package com.sheoanna.airline.flights;
 
 import java.time.LocalDateTime;
-import org.springframework.data.annotation.Id;
-
+import java.util.Set;
 import com.sheoanna.airline.airport.Airport;
+import com.sheoanna.airline.bookings.Booking;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
 @Entity
 @Table(name = "flights")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_flight")
-    private Long id_flight;
+    private Long idFlight;
 
-    @Column(name = "is_flight_avalible", nullable = false, length = 100)
-    private boolean isAvaliable;
-
-    @Column(name = "flight_date_time", nullable = false)
-    private LocalDateTime flightDataTime;
-
-    @OneToOne(mappedBy = "flight", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @Column(name = "departure_airport", length = 100)//code_aiti or id_airoport????
+    @ManyToOne
+    @JoinColumn(name = "id_departure_airport", nullable = false)
     private Airport departureAirport;
 
-    @OneToOne(mappedBy = "flight", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @Column(name = "destination_airport", length = 100)//code_aiti or id_airoport ???
-    private Airport destinationAirport;
+    @ManyToOne
+    @JoinColumn(name = "id_arrival_airport", nullable = false)
+    private Airport arrivalAirport;
 
-    @Column(name = "total_seats", length = 10)
-    private int totalSeats;
+    @Column(name = "date_flight", length = 50)
+    private LocalDateTime dateFlight;
 
-    //avalibleSeats!!!???
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)//name = "flight_status",
+    private FlightStatus statusFlight = FlightStatus.AVAILABLE;
 
-    public Flight() {
-    }
+    @Column(name = "available_seats", nullable = false)
+    private int availableSeats;
+
+    @ManyToMany(mappedBy = "flights")
+    private Set<Booking> bookings;
 
 }

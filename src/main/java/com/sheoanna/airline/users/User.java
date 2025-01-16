@@ -2,8 +2,6 @@ package com.sheoanna.airline.users;
 
 import java.util.Set;
 
-import org.springframework.context.annotation.Profile;
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,9 +13,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
-    private Long id_user;
+    private Long idUser;
 
-    private String username;
+    private String nameUser;
 
     private String password;
 
@@ -25,14 +23,14 @@ public class User {
     private Profile profile;
     
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_roles"))
     Set<Role> roles;
 
     public User() {
     }
 
-    public User(String username, String password, Profile profile) {
-        this.username = username;
+    public User(String name, String password, Profile profile) {
+        this.nameUser = name;
         this.password = password;
         this.profile = profile;
     }
