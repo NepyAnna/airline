@@ -2,6 +2,10 @@ package com.sheoanna.airline.users;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sheoanna.airline.profile.Profile;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,22 +19,25 @@ public class User {
     @Column(name = "id_user")
     private Long idUser;
 
-    private String nameUser;
+    private String username;
 
+    @JsonIgnore
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Profile profile;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_roles"))
+    @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
     Set<Role> roles;
 
     public User() {
     }
 
     public User(String name, String password, Profile profile) {
-        this.nameUser = name;
+        this.username = name;
         this.password = password;
         this.profile = profile;
     }
