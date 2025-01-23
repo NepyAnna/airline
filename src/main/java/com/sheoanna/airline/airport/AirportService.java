@@ -54,11 +54,6 @@ public class AirportService {
         return new AirportDto(savedAirport.getIdAirport(), savedAirport.getNameAirport(), savedAirport.getCodeIata());
     }
 
-    /*public void deleteByCodeIata(String code) {
-        Airport aiport  = repository.findByCodeIata(code);
-        repository.deleteById(aiport.getIdAirport());
-    }*/
-
     public void deleteById(Long id) {
         if (!repository.existsById(id)) {
             throw new RuntimeException("Airport with id " + id + " not found");

@@ -38,6 +38,8 @@ public class BookingService {
             return bookingDto;
     }
 
+    
+
     private UserDto toUserDto(User user) {
         ProfileDto profileDto = user.getProfile() != null
                 ? new ProfileDto(user.getProfile().getAddress())

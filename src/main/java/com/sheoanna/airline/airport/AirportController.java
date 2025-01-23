@@ -1,6 +1,8 @@
 package com.sheoanna.airline.airport;
 
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,16 +52,6 @@ public class AirportController {
         AirportDto updatedAirportDto = service.updateAirportData(id,airportDtoUpdateData);
         return ResponseEntity.ok(updatedAirportDto);
     }
-
-    /*@DeleteMapping("/{codeIata}")
-    public ResponseEntity<Void> deleteAiportByCodeIata(@PathVariable String codeIata) {
-        try {
-            service.deleteByCodeIata(codeIata);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAiportById(@PathVariable Long id) {
