@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("api-endpoint/bookings")
@@ -37,5 +39,11 @@ public class BookingController {
 
         return ResponseEntity.ok(saveBookingDto);
     }
+
+     @PutMapping("/{id}")
+     public ResponseEntity<BookingDto> putBookingById(@PathVariable Long id, @RequestBody BookingDto bookingDtoUpdateData) {
+        BookingDto updatedBooking = service.updateBooking(id, bookingDtoUpdateData);
+        return ResponseEntity.ok(updatedBooking);
+     }
 
 }

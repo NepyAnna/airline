@@ -11,6 +11,7 @@ import com.sheoanna.airline.flights.FlightNotFoundException;
 import com.sheoanna.airline.flights.FlightRepository;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserDto;
+import com.sheoanna.airline.users.UserNotFoundException;
 import com.sheoanna.airline.users.UserRepository;
 
 import java.util.List;
@@ -69,7 +70,7 @@ public class BookingService {
 
         Booking booking = new Booking();
         booking.setUser(userRepository.findById(bookingDto.user().idUser())
-                .orElseThrow(() -> new RuntimeException("User not found")));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + bookingDto.user().idUser())));
         booking.setFlight(flight);
         booking.setDateBooking(bookingDto.dateBooking());
         booking.setBookedSeats(bookingDto.bookedSeats());
@@ -78,6 +79,47 @@ public class BookingService {
 
         return bookingToBookingDto(savedBooking);
     }
+
+    @Transactional
+public BookingDto updateBooking(Long id, BookingDto bookingDto) {
+    // Знайти існуюче бронювання
+    Booking existingBooking = repository.findById(id)
+            .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
+
+    // Знайти користувача за ID, переданим у DTO
+    User user = userRepository.findById(bookingDto.user().idUser())
+            .orElseThrow(() -> new UserNotFoundException("User not found with id: " + bookingDto.user().idUser()));
+
+    // Знайти рейс за параметрами, переданими у DTO
+    Flight flight = flightRepository.findFlightByParameters(
+            bookingDto.flight().departureAirport().idAirport(),
+            bookingDto.flight().arrivalAirport().idAirport(),
+            bookingDto.flight().dateFlight(),
+            bookingDto.bookedSeats())
+            .orElseThrow(() -> new FlightNotFoundException("Flight not found with the specified parameters"));
+
+    // Перевірити, чи є достатньо доступних місць
+    int newSeatsDelta = bookingDto.bookedSeats() - existingBooking.getBookedSeats();
+    if (flight.getAvailableSeats() < newSeatsDelta) {
+        throw new BookingException("Not enough available seats on this flight");
+    }
+
+    // Оновити кількість доступних місць на рейсі
+    flight.setAvailableSeats(flight.getAvailableSeats() - newSeatsDelta);
+    flightRepository.save(flight);
+
+    // Оновити існуюче бронювання
+    existingBooking.setUser(user);
+    existingBooking.setFlight(flight);
+    existingBooking.setDateBooking(bookingDto.dateBooking());
+    existingBooking.setBookedSeats(bookingDto.bookedSeats());
+
+    // Зберегти оновлене бронювання
+    Booking updatedBooking = repository.save(existingBooking);
+
+    // Повернути оновлене бронювання у вигляді DTO
+    return bookingToBookingDto(updatedBooking);
+}
 
     private UserDto toUserDto(User user) {
         return new UserDto(user.getIdUser(), user.getUsername());
