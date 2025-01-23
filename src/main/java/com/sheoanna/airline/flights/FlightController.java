@@ -2,13 +2,17 @@ package com.sheoanna.airline.flights;
 
 import java.util.List;
 
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("api-endpoint/flights")
@@ -36,5 +40,16 @@ public class FlightController {
         FlightDto createFlightDto = service.store(newFlightDtoData);
         return ResponseEntity.ok(createFlightDto);
     }
-    
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FlightDto> putFlightById(@PathVariable Long id, @RequestBody FlightDto flightUpdatedDataDto) {
+       FlightDto updatedFlightDto = service.updateFlight(id,flightUpdatedDataDto);
+        return ResponseEntity.ok(updatedFlightDto);
+    }
+     @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFlightById(@PathVariable Long id) {
+            service.deleteById(id);
+            return ResponseEntity.noContent().build();
+       
+    }
 }

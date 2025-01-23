@@ -1,6 +1,7 @@
 package com.sheoanna.airline.flights;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,7 @@ public class FlightService {
         this.repository = repository;
     }
 
-    public List<FlightDto> getAll() {
+     public List<FlightDto> getAll() {
         List<Flight> flights = repository.findAll();
 
         return flights.stream()
@@ -22,6 +23,7 @@ public class FlightService {
                         flight.getArrivalAirport(),
                         flight.getDateFlight(),
                         flight.getStatusFlight(),
+                        flight.getPrice(),
                         flight.getAvailableSeats(),
                         flight.getTotalSeats()))
                 .toList();
@@ -36,6 +38,7 @@ public class FlightService {
                 flight.getArrivalAirport(),
                 flight.getDateFlight(),
                 flight.getStatusFlight(),
+                flight.getPrice(),
                 flight.getAvailableSeats(),
                 flight.getTotalSeats());
 
@@ -45,7 +48,7 @@ public class FlightService {
     @Transactional
     public FlightDto store(FlightDto newFlightData) {
         Flight newFlight = new Flight(newFlightData.departureAirport(), newFlightData.arrivalAirport(),
-                newFlightData.flightDate(), newFlightData.status(),
+                newFlightData.flightDate(), newFlightData.status(), newFlightData.price(),
                 newFlightData.availableSeats(), newFlightData.totalSeats());
 
         Flight savedFlight = repository.save(newFlight);
@@ -55,12 +58,13 @@ public class FlightService {
                 savedFlight.getArrivalAirport(),
                 savedFlight.getDateFlight(),
                 savedFlight.getStatusFlight(),
+                savedFlight.getPrice(),
                 savedFlight.getAvailableSeats(),
                 savedFlight.getTotalSeats());
     }
 
     @Transactional
-    public FlightDto updateFlightData(Long id, FlightDto flightDtoUpdateData) {
+    public FlightDto updateFlight(Long id, FlightDto flightDtoUpdateData) {
         Flight existingFlight = repository.findById(id)
         .orElseThrow(() -> new FlightNotFoundException("Flight not found by id"));
 
@@ -68,6 +72,7 @@ public class FlightService {
         existingFlight.setArrivalAirport(flightDtoUpdateData.arrivalAirport());
         existingFlight.setDateFlight(flightDtoUpdateData.flightDate());
         existingFlight.setStatusFlight(flightDtoUpdateData.status());
+        existingFlight.setPrice(flightDtoUpdateData.price());
         existingFlight.setAvailableSeats(flightDtoUpdateData.availableSeats());
         existingFlight.setTotalSeats(flightDtoUpdateData.totalSeats());
         
@@ -78,7 +83,15 @@ public class FlightService {
         savedFlight.getArrivalAirport(),
         savedFlight.getDateFlight(),
         savedFlight.getStatusFlight(),
+        savedFlight.getPrice(),
         savedFlight.getAvailableSeats(),
         savedFlight.getTotalSeats());
+    }
+
+    public void deleteById(Long id) {
+        if (!repository.existsById(id)) {
+                throw new RuntimeException("Flight with id " + id + " not found");
+            }
+            repository.deleteById(id);
     }
 }

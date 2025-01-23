@@ -1,9 +1,11 @@
 package com.sheoanna.airline.users;
 
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sheoanna.airline.bookings.Booking;
 import com.sheoanna.airline.profile.Profile;
 
 import jakarta.persistence.*;
@@ -32,6 +34,10 @@ public class User {
     @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     Set<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Booking> bookings;
 
     public User() {
     }

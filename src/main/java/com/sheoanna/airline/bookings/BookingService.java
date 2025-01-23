@@ -20,7 +20,7 @@ public class BookingService {
         List<Booking> bookings = repository.findAll();
         return bookings.stream().map(booking -> new BookingDto(booking.getIdBooking(),
         toUserDto(booking.getUser()),
-        booking.getFlights(),
+        booking.getFlight(),
         booking.getDateBooking(),
         booking.getBookedSeats())).toList();
     }
@@ -31,7 +31,7 @@ public class BookingService {
         BookingDto bookingDto = new BookingDto(
             booking.getIdBooking(),
             toUserDto(booking.getUser()),
-            booking.getFlights(),
+            booking.getFlight(),
             booking.getDateBooking(),
             booking.getBookedSeats());
 

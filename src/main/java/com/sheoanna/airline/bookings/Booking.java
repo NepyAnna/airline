@@ -1,9 +1,8 @@
 package com.sheoanna.airline.bookings;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sheoanna.airline.flights.Flight;
 import com.sheoanna.airline.users.User;
 
@@ -26,14 +25,10 @@ public class Booking {
     @Column(name= "id_booking")
     private Long idBooking;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
+    @JsonBackReference
     private User user;
-
-    @ManyToMany
-    @JoinTable(name = "bookings_flights", joinColumns = @JoinColumn(name = "booking_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
-    @JsonIgnore
-    private List<Flight> flights;
 
     @Column(name = "date_booking", length = 50)
     private LocalDateTime dateBooking;
@@ -41,11 +36,16 @@ public class Booking {
     @Column(name = "booked_seats", length = 50)
     private int bookedSeats;
 
-    public Booking(User user, List<Flight> flights, LocalDateTime dateBooking, int bookedSeats) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_flight", nullable = false)
+    @JsonBackReference
+    private Flight flight;
+
+    public Booking(User user, LocalDateTime dateBooking, int bookedSeats, Flight flight) {
         this.user = user;
-        this.flights = flights;
+        this.flight = flight;
         this.dateBooking = dateBooking;
-        this.bookedSeats = bookedSeats;
+        this.bookedSeats =bookedSeats;
     }
 
 

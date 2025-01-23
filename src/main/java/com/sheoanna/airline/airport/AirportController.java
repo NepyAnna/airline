@@ -46,7 +46,7 @@ public class AirportController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AirportDto> putMethodName(@PathVariable Long id, @RequestBody AirportDto airportDtoUpdateData) {
+    public ResponseEntity<AirportDto> putAirportById(@PathVariable Long id, @RequestBody AirportDto airportDtoUpdateData) {
         AirportDto updatedAirportDto = service.updateAirportData(id,airportDtoUpdateData);
         return ResponseEntity.ok(updatedAirportDto);
     }
