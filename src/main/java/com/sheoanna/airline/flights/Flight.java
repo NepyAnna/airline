@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.bookings.Booking;
@@ -52,7 +53,7 @@ public class Flight {
     @Column(name = "total_seats", length = 10)
     private int totalSeats;
 
-    @OneToMany(mappedBy = "flight",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "flight",cascade = CascadeType.ALL)//, orphanRemoval = true (видаляє повязані записи при видалені батьківських сутностей) 
     @JsonManagedReference
     private Set<Booking> bookings;
 

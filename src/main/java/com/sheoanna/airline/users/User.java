@@ -26,21 +26,20 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)// fetch = FetchType.EAGER
     @JsonManagedReference
     private Profile profile;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)// fetch = FetchType.EAGER
     @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     Set<Role> roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)//, orphanRemoval = true  (видаляє повязані записи при видалені батьківських сутностей)
     @JsonManagedReference
     private List<Booking> bookings;
 
-    public User() {
-    }
+    public User() {}
 
     public User(String name, String password, Profile profile) {
         this.username = name;

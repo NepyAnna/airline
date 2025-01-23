@@ -2,7 +2,6 @@ package com.sheoanna.airline.bookings;
 
 import org.springframework.stereotype.Service;
 
-import com.sheoanna.airline.profile.ProfileDto;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserDto;
 
@@ -17,7 +16,7 @@ public class BookingService {
     }
 
      public List<BookingDto> getAll() {
-        List<Booking> bookings = repository.findAll();
+        List<Booking> bookings = repository.findAllWithDetails();// repository.findAll();
         return bookings.stream().map(booking -> new BookingDto(booking.getIdBooking(),
         toUserDto(booking.getUser()),
         booking.getFlight(),
@@ -26,7 +25,7 @@ public class BookingService {
     }
 
     public BookingDto getById(Long id){
-        Booking booking = repository.findById(id).orElseThrow();
+        Booking booking = repository.findById(id).orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
 
         BookingDto bookingDto = new BookingDto(
             booking.getIdBooking(),
@@ -38,12 +37,10 @@ public class BookingService {
             return bookingDto;
     }
 
-    
-
     private UserDto toUserDto(User user) {
-        ProfileDto profileDto = user.getProfile() != null
+        /*ProfileDto profileDto = user.getProfile() != null
                 ? new ProfileDto(user.getProfile().getAddress())
-                : null;
-        return new UserDto(user.getIdUser(), user.getUsername(), profileDto);
+                : null;*/
+        return new UserDto(user.getIdUser(), user.getUsername());
     }
 }
