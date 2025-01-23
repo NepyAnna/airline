@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.airport.AirportDto;
+import com.sheoanna.airline.airport.AirportNotFoundException;
 import com.sheoanna.airline.airport.AirportRepository;
 
 @Service
@@ -37,7 +38,7 @@ public class FlightService {
 
         public FlightDto getById(Long id) {
                 Flight flight = repository.findById(id)
-                                .orElseThrow(() -> new FlightNotFoundException("Airport not found by id"));
+                                .orElseThrow(() -> new FlightNotFoundException("Airport not found with id: " + id));
 
                 FlightDto flightDto = new FlightDto(flight.getIdFlight(),
                                 airportToAirportDto(flight.getDepartureAirport()),
@@ -53,11 +54,9 @@ public class FlightService {
 
         @Transactional
         public FlightDto store(FlightDto newFlightData) {
-                // Завантаження аеропортів із бази даних
                 Airport departureAirport = findAirportById(newFlightData.departureAirport().idAirport());
                 Airport arrivalAirport = findAirportById(newFlightData.arrivalAirport().idAirport());
 
-                // Створення нового рейсу
                 Flight newFlight = new Flight(
                                 departureAirport,
                                 arrivalAirport,
@@ -83,7 +82,7 @@ public class FlightService {
         @Transactional
         public FlightDto updateFlight(Long id, FlightDto flightDtoUpdateData) {
                 Flight existingFlight = repository.findById(id)
-                                .orElseThrow(() -> new FlightNotFoundException("Flight not found by id"));
+                                .orElseThrow(() -> new FlightNotFoundException("Flight with id " + id + " not found"));
 
                 Airport departureAirport = findAirportById(flightDtoUpdateData.departureAirport().idAirport());
                 Airport arrivalAirport = findAirportById(flightDtoUpdateData.arrivalAirport().idAirport());
@@ -111,7 +110,7 @@ public class FlightService {
 
         public void deleteById(Long id) {
                 if (!repository.existsById(id)) {
-                        throw new RuntimeException("Flight with id " + id + " not found");
+                        throw new FlightNotFoundException("Flight with id " + id + " not found");
                 }
                 repository.deleteById(id);
         }
@@ -125,6 +124,6 @@ public class FlightService {
 
         private Airport findAirportById(Long id) {
                 return airportRepository.findById(id)
-                                .orElseThrow(() -> new RuntimeException("Airport not found with id: " + id));
+                                .orElseThrow(() -> new AirportNotFoundException("Airport not found with id: " + id));
         }
 }
