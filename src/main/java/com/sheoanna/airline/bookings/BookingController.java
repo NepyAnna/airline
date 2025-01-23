@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("api-endpoint/bookings")
 public class BookingController {
@@ -31,12 +30,12 @@ public class BookingController {
         BookingDto bookingDto = service.getById(id);
         return ResponseEntity.ok(bookingDto);
     }
-    
-    /*@PostMapping("")
+
+    @PostMapping("")
     public ResponseEntity<BookingDto> createBooking(@RequestBody BookingDto newBookingDtoData) {
-       BookingDto saveBookingDto = service.createBooking(newBookingDtoData);
-        
+        BookingDto saveBookingDto = service.createBooking(newBookingDtoData);
+
         return ResponseEntity.ok(saveBookingDto);
-    }*/
-    
+    }
+
 }
