@@ -49,7 +49,7 @@ public class Booking {
     }
 
 
-    /*@Enumerated(EnumType.STRING)  // Enums для статусу
-    private BookingStatus status = BookingStatus.PENDING;*/
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status = BookingStatus.PENDING;
 
 }

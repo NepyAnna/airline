@@ -15,5 +15,10 @@ public class UserService {
     public List<User> findAll() {
         return repository.findAll();
     }
+public User findById(Long id)  {
+    User user = repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+    return user;
+}
 
 }

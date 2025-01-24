@@ -1,4 +1,5 @@
 package com.sheoanna.airline.role;
+
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sheoanna.airline.users.User;
@@ -14,6 +15,7 @@ public class Role {
     @Column(name = "id_role")
     private Long idRole;
     private String name;
+    
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     Set<User> users;

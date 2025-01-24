@@ -15,6 +15,9 @@ import com.sheoanna.airline.users.UserNotFoundException;
 import com.sheoanna.airline.users.UserRepository;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class BookingService {
@@ -77,6 +80,8 @@ public class BookingService {
 
         Booking savedBooking = repository.save(booking);
 
+        scheduleSeatRelease(savedBooking);//!!!!!!!!!!!!!!!!!!CHECK!!!!!!!!!!!!!!!!!!!
+
         return bookingToBookingDto(savedBooking);
     }
 
@@ -109,9 +114,31 @@ public class BookingService {
         existingBooking.setBookedSeats(bookingDto.bookedSeats());
 
         Booking updatedBooking = repository.save(existingBooking);
-
+        
         return bookingToBookingDto(updatedBooking);
     }
+
+
+//////////////////CHEcCK???????????????????????????????????????
+
+    private void scheduleSeatRelease(Booking booking) {
+    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    scheduler.schedule(() -> {
+        Booking existingBooking = repository.findById(booking.getIdBooking()).orElse(null);
+        if (existingBooking != null && !isBookingConfirmed(existingBooking)) {
+            Flight flight = existingBooking.getFlight();
+            flight.setAvailableSeats(flight.getAvailableSeats() + existingBooking.getBookedSeats());
+            flightRepository.save(flight);
+            repository.deleteById(existingBooking.getIdBooking());
+        }
+    }, 15, TimeUnit.MINUTES);
+}
+
+private boolean isBookingConfirmed(Booking booking) {
+    
+    return booking.getStatus() == BookingStatus.CONFIRMED;
+}
+
 
     private UserDto toUserDto(User user) {
         return new UserDto(user.getIdUser(), user.getUsername());
