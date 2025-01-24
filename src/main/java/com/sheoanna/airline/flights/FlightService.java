@@ -66,6 +66,7 @@ public class FlightService {
                                 newFlightData.availableSeats(),
                                 newFlightData.totalSeats());
 
+                newFlight.updateStatusIfNeeded();
                 Flight savedFlight = repository.save(newFlight);
 
                 return new FlightDto(
@@ -95,6 +96,7 @@ public class FlightService {
                 existingFlight.setAvailableSeats(flightDtoUpdateData.availableSeats());
                 existingFlight.setTotalSeats(flightDtoUpdateData.totalSeats());
 
+                existingFlight.updateStatusIfNeeded();
                 Flight savedFlight = repository.save(existingFlight);
 
                 return new FlightDto(

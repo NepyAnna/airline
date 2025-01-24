@@ -66,4 +66,10 @@ public class Flight {
         this.totalSeats = totalSeats;
         this.bookings = new HashSet<>();
     }
+
+    public void updateStatusIfNeeded() {
+        if (availableSeats == 0 || dateFlight.isBefore(LocalDateTime.now())) {
+            statusFlight = FlightStatus.UNAVAILABLE;
+        }
+    }
 }

@@ -1,6 +1,8 @@
-package com.sheoanna.airline.users;
+package com.sheoanna.airline.role;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sheoanna.airline.users.User;
+
 import jakarta.persistence.*;
 import lombok.Data;
 @Data
