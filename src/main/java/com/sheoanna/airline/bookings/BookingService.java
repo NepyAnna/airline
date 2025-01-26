@@ -78,6 +78,7 @@ public class BookingService {
         booking.setFlight(flight);
         booking.setDateBooking(bookingDto.dateBooking());
         booking.setBookedSeats(bookingDto.bookedSeats());
+        booking.setStatus(BookingStatus.CONFIRMED);
 
         Booking savedBooking = repository.save(booking);
 
@@ -118,6 +119,17 @@ public class BookingService {
 
         return bookingToBookingDto(updatedBooking);
     }
+
+    @Transactional
+    public void deleteBooking(Long id) {
+        Booking booking = repository.findById(id)
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
+        Flight flight = booking.getFlight();
+        flight.setAvailableSeats(flight.getAvailableSeats() + booking.getBookedSeats());
+        flightRepository.save(flight);
+        repository.delete(booking);
+    }
+
     ////////////////// CHEcCK???????????????????????????????????????
 
     private void scheduleSeatRelease(Booking booking) {

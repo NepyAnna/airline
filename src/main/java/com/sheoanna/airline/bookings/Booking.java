@@ -43,15 +43,11 @@ public class Booking {
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status = BookingStatus.PENDING;
-    
+
     public Booking(User user, LocalDateTime dateBooking, int bookedSeats, Flight flight) {
         this.user = user;
         this.flight = flight;
         this.dateBooking = dateBooking;
         this.bookedSeats =bookedSeats;
     }
-
-
-    
-
 }
