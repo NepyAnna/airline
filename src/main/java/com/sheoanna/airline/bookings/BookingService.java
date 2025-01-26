@@ -4,15 +4,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sheoanna.airline.airport.AirportDto;
+import com.sheoanna.airline.bookings.exceptions.BookingException;
+import com.sheoanna.airline.bookings.exceptions.BookingNotFoundException;
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.flights.Flight;
 import com.sheoanna.airline.flights.FlightDto;
-import com.sheoanna.airline.flights.FlightNotFoundException;
 import com.sheoanna.airline.flights.FlightRepository;
+import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserDto;
-import com.sheoanna.airline.users.UserNotFoundException;
 import com.sheoanna.airline.users.UserRepository;
+import com.sheoanna.airline.users.exceptions.UserNotFoundException;
 
 import java.util.List;
 import java.util.concurrent.Executors;

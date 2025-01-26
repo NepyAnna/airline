@@ -1,4 +1,4 @@
-package com.sheoanna.airline.airport;
+package com.sheoanna.airline.airport.exceptions;
 
 public class AirportException extends RuntimeException {
     public AirportException(String message) {

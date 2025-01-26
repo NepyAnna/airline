@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.airport.AirportDto;
-import com.sheoanna.airline.airport.AirportNotFoundException;
 import com.sheoanna.airline.airport.AirportRepository;
+import com.sheoanna.airline.airport.exceptions.AirportNotFoundException;
+import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 
 @Service
 public class FlightService {
