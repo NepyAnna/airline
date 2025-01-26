@@ -2,17 +2,18 @@ package com.sheoanna.airline.bookings;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.sheoanna.airline.airport.AirportDto;
+import com.sheoanna.airline.bookings.exceptions.BookingException;
+import com.sheoanna.airline.bookings.exceptions.BookingNotFoundException;
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.flights.Flight;
 import com.sheoanna.airline.flights.FlightDto;
-import com.sheoanna.airline.flights.FlightNotFoundException;
 import com.sheoanna.airline.flights.FlightRepository;
+import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserDto;
-import com.sheoanna.airline.users.UserNotFoundException;
 import com.sheoanna.airline.users.UserRepository;
+import com.sheoanna.airline.users.exceptions.UserNotFoundException;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -80,7 +81,7 @@ public class BookingService {
 
         Booking savedBooking = repository.save(booking);
 
-        scheduleSeatRelease(savedBooking);//!!!!!!!!!!!!!!!!!!CHECK!!!!!!!!!!!!!!!!!!!
+        scheduleSeatRelease(savedBooking);// !!!!!!!!!!!!!!!!!!CHECK!!!!!!!!!!!!!!!!!!!
 
         return bookingToBookingDto(savedBooking);
     }
@@ -114,31 +115,28 @@ public class BookingService {
         existingBooking.setBookedSeats(bookingDto.bookedSeats());
 
         Booking updatedBooking = repository.save(existingBooking);
-        
+
         return bookingToBookingDto(updatedBooking);
     }
-
-
-//////////////////CHEcCK???????????????????????????????????????
+    ////////////////// CHEcCK???????????????????????????????????????
 
     private void scheduleSeatRelease(Booking booking) {
-    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    scheduler.schedule(() -> {
-        Booking existingBooking = repository.findById(booking.getIdBooking()).orElse(null);
-        if (existingBooking != null && !isBookingConfirmed(existingBooking)) {
-            Flight flight = existingBooking.getFlight();
-            flight.setAvailableSeats(flight.getAvailableSeats() + existingBooking.getBookedSeats());
-            flightRepository.save(flight);
-            repository.deleteById(existingBooking.getIdBooking());
-        }
-    }, 15, TimeUnit.MINUTES);
-}
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.schedule(() -> {
+            Booking existingBooking = repository.findById(booking.getIdBooking()).orElse(null);
+            if (existingBooking != null && !isBookingConfirmed(existingBooking)) {
+                Flight flight = existingBooking.getFlight();
+                flight.setAvailableSeats(flight.getAvailableSeats() + existingBooking.getBookedSeats());
+                flightRepository.save(flight);
+                repository.deleteById(existingBooking.getIdBooking());
+            }
+        }, 15, TimeUnit.MINUTES);
+    }
 
-private boolean isBookingConfirmed(Booking booking) {
-    
-    return booking.getStatus() == BookingStatus.CONFIRMED;
-}
+    private boolean isBookingConfirmed(Booking booking) {
 
+        return booking.getStatus() == BookingStatus.CONFIRMED;
+    }
 
     private UserDto toUserDto(User user) {
         return new UserDto(user.getIdUser(), user.getUsername());

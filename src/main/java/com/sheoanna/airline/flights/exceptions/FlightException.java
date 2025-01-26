@@ -1,4 +1,4 @@
-package com.sheoanna.airline.flights;
+package com.sheoanna.airline.flights.exceptions;
 
 public class FlightException  extends RuntimeException {
     public FlightException(String message) {

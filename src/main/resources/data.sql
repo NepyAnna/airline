@@ -15,8 +15,8 @@ INSERT INTO roles (id_role, name) VALUES
 (2, 'ROLE_ADMIN');
 
 INSERT INTO users (id_user, username, password) VALUES
-(1, 'Din', '$2a$12$8LegtLQWe717tIPvZeivjuqKnaAs5.bm0Q05.5GrAmcKzXw2NjoUO'),
-(2, 'Don', '$2a$12$8LegtLQWe717tIPvZeivjuqKnaAs5.bm0Q05.5GrAmcKzXw2NjoUO');
+(1, 'Din', 'tuktuk'),
+(2, 'Don', 'password');
 
 INSERT INTO profiles (id_profile,email, address, user_id) VALUES 
 (1,'pepe@mail.com', 'portal 1',1),
@@ -26,6 +26,6 @@ INSERT INTO roles_users (role_id, user_id) VALUES
 (1, 1),
 (2, 2);
 
-INSERT INTO bookings (id_booking, id_user, date_booking, booked_seats, id_flight) 
-VALUES (1, 1, '2025-01-27T20:00:00', 2, 1),
-       (2, 1, '2025-01-27T20:00:00', 1, 2);
+INSERT INTO bookings (id_booking, id_user, date_booking, booked_seats, id_flight, status) 
+VALUES (1, 1, '2025-01-27T20:00:00', 2, 1, 'CONFIRMED'),
+       (2, 1, '2025-01-27T20:00:00', 1, 2, 'CONFIRMED');

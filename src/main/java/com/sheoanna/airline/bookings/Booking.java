@@ -41,6 +41,9 @@ public class Booking {
     @JsonBackReference
     private Flight flight;
 
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status = BookingStatus.PENDING;
+    
     public Booking(User user, LocalDateTime dateBooking, int bookedSeats, Flight flight) {
         this.user = user;
         this.flight = flight;
@@ -49,7 +52,6 @@ public class Booking {
     }
 
 
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status = BookingStatus.PENDING;
+    
 
 }

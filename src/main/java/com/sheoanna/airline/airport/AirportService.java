@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sheoanna.airline.airport.exceptions.AirportNotFoundException;
+
 @Service
 public class AirportService {
     private AirportRepository repository;

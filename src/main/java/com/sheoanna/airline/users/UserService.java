@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sheoanna.airline.users.exceptions.UserNotFoundException;
+
 @Service
 public class UserService {
     private UserRepository repository;

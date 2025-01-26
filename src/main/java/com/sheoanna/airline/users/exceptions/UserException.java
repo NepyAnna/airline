@@ -1,4 +1,4 @@
-package com.sheoanna.airline.users;
+package com.sheoanna.airline.users.exceptions;
 
 public class UserException extends RuntimeException {
     public UserException(String message) {
