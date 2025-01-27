@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -30,16 +31,22 @@ public class Profile {
     private Long idProfile;
 
     private String email;
-    private String address;
+
+    @Lob
+    @Column(name = "photo", columnDefinition = "BLOB")
+    private byte[] photo;
+    
+    @Column(name = "photo_url")
+    private String photoUrl;
     
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id_user")
-    @JsonBackReference//буде ігноруватися при серіалізації (
+    @JsonBackReference
     private User user;
 
-    public Profile(String email, String address, User user) {
+    public Profile(String email, byte[] photo, User user) {
         this.email = email;
-        this.address = address;
+        this.photo = photo;
         this.user = user;
     }     
 }

@@ -16,11 +16,11 @@ INSERT INTO roles (id_role, name) VALUES
 
 INSERT INTO users (id_user, username, password) VALUES
 (1, 'Din', 'tuktuk'),
-(2, 'Don', 'password');
+(2, 'Don', 'tuktuk');
 
-INSERT INTO profiles (id_profile,email, address, user_id) VALUES 
-(1,'pepe@mail.com', 'portal 1',1),
-(2,'pepa@mail.com', 'portal 1',2);
+INSERT INTO profiles (id_profile,email, user_id, photo) VALUES 
+(1,'din@mail.com', 1, null),
+(2,'don@mail.com', 2, null);
 
 INSERT INTO roles_users (role_id, user_id) VALUES 
 (1, 1),
