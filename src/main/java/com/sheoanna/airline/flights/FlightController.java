@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("api-endpoint/flights")
+@RequestMapping("${api-endpoint}/flights")
 public class FlightController {
     private FlightService service;
 

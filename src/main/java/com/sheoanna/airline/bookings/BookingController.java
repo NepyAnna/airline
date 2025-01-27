@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("api-endpoint/bookings")
+@RequestMapping("${api-endpoint}/bookings")
 public class BookingController {
     private BookingService service;
 
