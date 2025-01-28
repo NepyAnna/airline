@@ -10,6 +10,7 @@ import com.sheoanna.airline.role.RoleService;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserDto;
 import com.sheoanna.airline.users.UserRepository;
+import com.sheoanna.airline.users.exceptions.UserAlreadyExistsException;
 import com.sheoanna.airline.users.exceptions.UserException;
 
 @Service
@@ -28,7 +29,7 @@ public class RegisterService {
     public Map<String, String> save(UserDto userData) {
 
         if (userRepository.findByUsername(userData.username()).isPresent()) {
-            throw new  UserException("User with email " + userData.username() + " already exists");
+            throw new  UserAlreadyExistsException("User with email " + userData.username() + " already exists");
         }
 
         String passwordDecoded = encryptFacade.decode("base64",userData.password());
