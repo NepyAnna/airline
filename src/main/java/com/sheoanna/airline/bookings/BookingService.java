@@ -33,7 +33,7 @@ public class BookingService {
         this.userRepository = userRepository;
     }
 
-    public List<BookingDto> getAll() {
+    /*public List<BookingDto> getAll() {
         List<Booking> bookings = repository.findAllWithDetails();// repository.findAll();
         return bookings.stream().map(booking -> new BookingDto(booking.getIdBooking(),
                 toUserDto(booking.getUser()),
@@ -151,7 +151,7 @@ public class BookingService {
     }
 
     private UserDto toUserDto(User user) {
-        return new UserDto(user.getIdUser(), user.getUsername());
+        return new UserDto(user.getIdUser(), user.getUsername(), user.getPassword());
     }
 
     private FlightDto flightToFlightDto(Flight flight) {
@@ -179,5 +179,5 @@ public class BookingService {
                 flightToFlightDto(booking.getFlight()),
                 booking.getDateBooking(),
                 booking.getBookedSeats());
-    }
+    }*/
 }

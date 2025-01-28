@@ -45,8 +45,13 @@ public class User {
     @JsonManagedReference
     private List<Booking> bookings;
 
-    public User(String name, String password, Profile profile) {
-        this.username = name;
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String password, Profile profile) {
+        this.username = username;
         this.password = password;
         this.profile = profile;
     }

@@ -41,10 +41,10 @@ public class SecurityConfiguration {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"))
-                        .permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+                        .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
                         .requestMatchers(endpoint + "/login").hasAnyRole("USER", "ADMIN")
-                        //.requestMatchers(endpoint).permitAll()
+                        .requestMatchers(endpoint).permitAll()
                         .requestMatchers(endpoint + "/private").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, endpoint + "/bookings").hasRole( "ADMIN")
                         .requestMatchers(endpoint + "/profiles").hasRole("ADMIN")

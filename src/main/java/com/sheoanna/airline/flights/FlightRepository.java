@@ -16,18 +16,4 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
                   @Param("arrivalAirportId") Long arrivalAirportId,
                   @Param("flightDate") LocalDateTime flightDate,
                   @Param("requiredSeats") int requiredSeats);
-
 }
-/*
- * 
- * 
- * 
- * 
- * List<Flight>
- * findByDepartureAirport_CodeIataAndArrivalAirport_CodeIataAndDateFlightAndAvailableSeatsGreaterThanEqual(
- * String departureAirportCode,
- * String arrivalAirportCode,
- * LocalDateTime dateFlight,
- * int requiredSeats
- * );
- */
