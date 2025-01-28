@@ -74,7 +74,6 @@ public class BookingService {
 
         Booking booking = new Booking();
         booking.setUser(userRepository.findByUsername(bookingDto.user().username()).orElseThrow(() -> new UserNotFoundException("User not found with username: " + bookingDto.user().username())));
-        //booking.setUser(userRepository.findById(bookingDto.user().idUser())
                 
         booking.setFlight(flight);
         booking.setDateBooking(bookingDto.dateBooking());
@@ -94,11 +93,10 @@ public class BookingService {
                 .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
 
 
-                User user = userRepository.findByUsername(bookingDto.user().username()).orElseThrow(() -> new UserNotFoundException("User not found with username: " + bookingDto.user().username()));
-        /*User user = userRepository.findById(bookingDto.user().idUser())
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + bookingDto.user().idUser()));*/
+                User user = userRepository.findByUsername(bookingDto.user().username())
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + bookingDto.user().username()));
 
-        Flight flight = flightRepository.findFlightByParameters(
+               Flight flight = flightRepository.findFlightByParameters(
                 bookingDto.flight().departureAirport().idAirport(),
                 bookingDto.flight().arrivalAirport().idAirport(),
                 bookingDto.flight().dateFlight(),
