@@ -21,7 +21,7 @@ public class BookingController {
         this.service = service;
     }
 
-    /*@GetMapping("")
+    @GetMapping("")
     public List<BookingDto> index() {
         List<BookingDto> bookings = service.getAll();
         return bookings;
@@ -51,5 +51,5 @@ public class BookingController {
     public ResponseEntity<Void> deleteBookingById(@PathVariable Long id){
         service.deleteBooking(id);
         return ResponseEntity.noContent().build();
-    }*/
+    }
 }
