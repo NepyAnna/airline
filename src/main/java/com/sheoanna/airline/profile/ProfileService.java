@@ -8,28 +8,29 @@ import com.sheoanna.airline.profile.exceptions.ProfileNotFoundException;
 
 @Service
 public class ProfileService {
-    private final ProfileRepository profileRepository;
+    private final ProfileRepository repository;
 
-    public ProfileService(ProfileRepository profileRepository) {
-        this.profileRepository = profileRepository;
+    public ProfileService(ProfileRepository repository) {
+        this.repository = repository;
     }
 
-    // Завантаження фото
+    public Profile findById(Long id)  {
+        Profile profile = repository.findById(id).orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
+        return profile;
+    }
+
     public void uploadPhoto(Long id, MultipartFile file) throws IOException {
-        Profile profile = profileRepository.findById(id)
+        Profile profile = repository.findById(id)
                 .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
 
-        // Конвертуємо файл у масив байтів
         byte[] photoBytes = file.getBytes();
         profile.setPhoto(photoBytes);
 
-        // Зберігаємо в базу
-        profileRepository.save(profile);
+        repository.save(profile);
     }
 
-    // Отримання фото
     public byte[] getPhoto(Long id) {
-        Profile profile = profileRepository.findById(id)
+        Profile profile = repository.findById(id)
                 .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
 
         if (profile.getPhoto() == null) {
@@ -38,15 +39,5 @@ public class ProfileService {
 
         return profile.getPhoto();
     }
-
-    /*// Отримання DTO з динамічним URL
-    public ProfileDto getProfileDto(Long id) {
-        Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
-
-        String photoUrl = "/api/profiles/" + id + "/photo"; // Генерація URL
-        return new ProfileDto( photoUrl);
-    }*/
-
 
 }

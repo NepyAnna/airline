@@ -19,8 +19,8 @@ INSERT INTO users (id_user, username, password) VALUES (1, 'Din', '$2a$12$qanYcT
 INSERT INTO users (id_user, username, password) VALUES (2, 'Don', '$2a$12$qanYcTsH3oRXTOPPKW0m9.s.tqyepncgMEDQb9JygZDcq8.Qx1zkG');
 
 /* Profiles */
-INSERT INTO profiles (id_profile,email, user_id, photo) VALUES (1,'din@mail.com', 1, null);
-INSERT INTO profiles (id_profile,email, user_id, photo) VALUES (2,'don@mail.com', 2, null);
+INSERT INTO profiles (id_profile, email, phone_number, address, user_id, photo) VALUES (1,'din@mail.com', '123456', 'Round street, Square city', 1, null);
+INSERT INTO profiles (id_profile, email, phone_number, address, user_id, photo) VALUES (2,'don@mail.com', '123456', 'Round street, Square city', 2, null);
 
 
 /* Roles Users */

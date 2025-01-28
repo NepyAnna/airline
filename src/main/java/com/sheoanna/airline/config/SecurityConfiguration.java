@@ -12,10 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 import com.sheoanna.airline.security.JpaUserDetailsService;
-
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +26,7 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JpaUserDetailsService userDetailsService) {
         this.jpaUserDetailsService = userDetailsService;
-}
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,19 +40,25 @@ public class SecurityConfiguration {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
-                        .requestMatchers(endpoint + "/login").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(endpoint + "/users").hasRole("ADMIN")
-                        .requestMatchers(endpoint + "/airport").hasRole("ADMIN")
-                        .requestMatchers(endpoint + "/flights").hasRole( "ADMIN")
-                        .requestMatchers(endpoint + "/bookings").hasRole( "ADMIN")
-                        .requestMatchers(endpoint + "/profiles").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, endpoint + "/bookings/id").hasRole( "USER")
-                        .requestMatchers(HttpMethod.PUT, endpoint + "/bookings/id").hasRole( "USER")
-                        .requestMatchers(HttpMethod.POST, endpoint + "/bookings").hasRole( "USER")
-                        .requestMatchers(HttpMethod.POST, endpoint + "/profiles/id").hasRole("USER")
-                        .requestMatchers(HttpMethod.DELETE, endpoint + "/profiles/id").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, endpoint + "/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, endpoint + "/airport").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, endpoint + "/airport").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, endpoint + "/airport/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, endpoint + "/airport/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, endpoint + "/flights").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, endpoint + "/flights/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, endpoint + "/flights/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, endpoint + "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,endpoint + "/bookings").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, endpoint + "/profiles").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, endpoint + "/bookings").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, endpoint + "/bookings/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT, endpoint + "/bookings/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, endpoint + "/profiles/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, endpoint + "/profiles/**").hasRole("USER")
                         .anyRequest().authenticated())
                 .userDetailsService(jpaUserDetailsService)
                 .httpBasic(withDefaults())

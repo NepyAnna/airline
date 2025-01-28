@@ -10,17 +10,18 @@ import com.sheoanna.airline.users.exceptions.UserNotFoundException;
 public class UserService {
     private UserRepository repository;
 
-    public UserService(UserRepository repository){
+    public UserService(UserRepository repository) {
         this.repository = repository;
     }
 
     public List<User> findAll() {
         return repository.findAll();
     }
-public User findById(Long id)  {
-    User user = repository.findById(id)
+
+    public User findById(Long id) {
+        User user = repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
-    return user;
-}
+        return user;
+    }
 
 }

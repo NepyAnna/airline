@@ -31,6 +31,8 @@ public class Profile {
     private Long idProfile;
 
     private String email;
+    private String phoneNumber;
+    private String address;
 
     @Lob
     @Column(name = "photo", columnDefinition = "BLOB")

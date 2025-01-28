@@ -11,7 +11,6 @@ import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserDto;
 import com.sheoanna.airline.users.UserRepository;
 import com.sheoanna.airline.users.exceptions.UserAlreadyExistsException;
-import com.sheoanna.airline.users.exceptions.UserException;
 
 @Service
 public class RegisterService {
