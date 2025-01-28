@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
-@RequestMapping("${api-endpoint}/users")
+@RequestMapping("${api-endpoint}/users/private")
 public class UserController {
     private UserService service;
 
