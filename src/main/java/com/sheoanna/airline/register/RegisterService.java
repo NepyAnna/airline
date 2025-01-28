@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.sheoanna.airline.encryptions.IEncryptFacade;
 import com.sheoanna.airline.role.RoleService;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserDto;
@@ -18,22 +19,27 @@ public class RegisterService {
 
     private final UserRepository userRepository;
     private final RoleService roleService;
+     private final IEncryptFacade encryptFacade;
 
-    public RegisterService(UserRepository userRepository, RoleService roleService) {
+     public RegisterService(UserRepository userRepository, RoleService roleService, IEncryptFacade encryptFacade) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.encryptFacade = encryptFacade;
     }
 
     public Map<String, String> save(UserDto userData) {
 
-        Decoder decoder = Base64.getDecoder();
+        String passwordDecoded = encryptFacade.decode("base64",userData.password());
+        /*Decoder decoder = Base64.getDecoder();
         byte[] decodedBytes = decoder.decode(userData.password());
-        String passwordDecoded = new String(decodedBytes);
+        String passwordDecoded = new String(decodedBytes);*/
 
-        System.out.println("<------------ " + passwordDecoded);
-
+       // System.out.println("<------------ " + passwordDecoded);
+        
+        String passwordEncoded = encryptFacade.encode("bcrypt", passwordDecoded);
+        /* 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String passwordEncoded = encoder.encode(passwordDecoded);
+        String passwordEncoded = encoder.encode(passwordDecoded);*/
 
         User newUser = new User(userData.username(), passwordEncoded);
         newUser.setRoles(roleService.assignDefaultRole());
