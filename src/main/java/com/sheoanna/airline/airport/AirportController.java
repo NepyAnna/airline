@@ -17,13 +17,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class AirportController {
     private AirportService service;
 
+
+
     public AirportController(AirportService service) {
         this.service = service;
     }
 
     @GetMapping("")
     public ResponseEntity<List<AirportDto>> index() {
-        return ResponseEntity.ok(service.getAll());
+        List<AirportDto> airports = service.getAll();
+        System.out.println("Airports response: " + airports); 
+        return ResponseEntity.ok(airports);
     }
 
     @GetMapping("/{id}")
@@ -55,7 +59,5 @@ public class AirportController {
     public ResponseEntity<Void> deleteAiportById(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
-
     }
-
 }

@@ -16,12 +16,7 @@ public class AirportService {
     }
 
     public List<AirportDto> getAll() {
-        List<AirportDto> airportsDto = repository.findAll().stream().map(airport -> new AirportDto(
-                airport.getIdAirport(),
-                airport.getNameAirport(),
-                airport.getCodeIata()))
-                .toList();
-        return airportsDto;
+        return List.of(new AirportDto(1L, "JFK", "John F. Kennedy International Airport")); // Переконайся, що повертається список
     }
 
     public AirportDto getById(Long id) {
