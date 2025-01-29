@@ -18,7 +18,6 @@ public class AirportController {
     private AirportService service;
 
 
-
     public AirportController(AirportService service) {
         this.service = service;
     }
@@ -26,7 +25,6 @@ public class AirportController {
     @GetMapping("")
     public ResponseEntity<List<AirportDto>> index() {
         List<AirportDto> airports = service.getAll();
-        System.out.println("Airports response: " + airports); 
         return ResponseEntity.ok(airports);
     }
 

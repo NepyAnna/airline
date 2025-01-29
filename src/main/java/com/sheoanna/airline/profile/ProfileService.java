@@ -46,7 +46,7 @@ public class ProfileService {
         Profile profile = new Profile(newProfileData.email(), newProfileData.phoneNumber(), newProfileData.address(),
                 null, null, user);
 
-        if (repository.findByUserId().isPresent()) {
+        if (repository.findByUserId(newProfileData.user().userId()).isPresent()) {
             throw new ProfileAlreadyExistsException(
                     "Profile with user_id: " + newProfileData.user().userId() + "already exists!");
         }
