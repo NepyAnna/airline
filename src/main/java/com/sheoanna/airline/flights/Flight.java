@@ -40,7 +40,7 @@ public class Flight {
     private LocalDateTime dateFlight;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(length = 50, nullable = false)
     private FlightStatus statusFlight = FlightStatus.AVAILABLE;
 
     @Column(name ="price", length = 50)

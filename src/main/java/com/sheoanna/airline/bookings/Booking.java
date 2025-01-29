@@ -3,6 +3,7 @@ package com.sheoanna.airline.bookings;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sheoanna.airline.flights.Flight;
 import com.sheoanna.airline.users.User;
 
@@ -28,6 +29,7 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     @JsonBackReference
+    @JsonIgnoreProperties({"password"})
     private User user;
 
     @Column(name = "date_booking", length = 50)
