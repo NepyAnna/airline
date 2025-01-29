@@ -119,10 +119,10 @@ public class FlightService {
         }
 
         private AirportDto airportToAirportDto(Airport airport) {
-                AirportDto airportDto = new AirportDto(airport.getIdAirport(),
+                return new AirportDto(
+                                airport.getIdAirport(),
                                 airport.getNameAirport(),
                                 airport.getCodeIata());
-                return airportDto;
         }
 
         private Airport findAirportById(Long id) {

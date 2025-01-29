@@ -11,7 +11,6 @@ import com.sheoanna.airline.flights.FlightDto;
 import com.sheoanna.airline.flights.FlightRepository;
 import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 import com.sheoanna.airline.users.User;
-import com.sheoanna.airline.users.UserDto;
 import com.sheoanna.airline.users.UserNameDto;
 import com.sheoanna.airline.users.UserRepository;
 import com.sheoanna.airline.users.exceptions.UserNotFoundException;

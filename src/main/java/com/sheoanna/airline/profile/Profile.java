@@ -29,9 +29,14 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_profile")
     private Long idProfile;
-
+    
+    @Column(name = "email", length = 50)
     private String email;
+
+    @Column(name = "phone_number", length = 50)
     private String phoneNumber;
+
+    @Column(name = "address", length = 50)
     private String address;
 
     @Lob
@@ -46,9 +51,17 @@ public class Profile {
     @JsonBackReference
     private User user;
 
-    public Profile(String email, byte[] photo, User user) {
+    public Profile(String email, User user) {
         this.email = email;
-        this.photo = photo;
         this.user = user;
-    }     
+    } 
+
+    public Profile(String email, String phoneNumber, String address, byte[] photo, String photoUrl, User user) {
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.photo = photo;
+        this.photoUrl = photoUrl;
+        this.user = user;
+    }
 }

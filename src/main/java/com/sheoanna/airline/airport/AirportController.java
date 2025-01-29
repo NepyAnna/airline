@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
 @RestController
-@RequestMapping("${api-endpoint}/airports")
+@RequestMapping("${api-endpoint}/private/airports")
 public class AirportController {
     private AirportService service;
 
@@ -41,22 +39,23 @@ public class AirportController {
     }
 
     @PostMapping("")
-    public ResponseEntity<AirportDto> create(@RequestBody AirportDto newAirportDtoData){
+    public ResponseEntity<AirportDto> create(@RequestBody AirportDto newAirportDtoData) {
         AirportDto createdAirportDto = service.store(newAirportDtoData);
         return ResponseEntity.ok(createdAirportDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AirportDto> putAirportById(@PathVariable Long id, @RequestBody AirportDto airportDtoUpdateData) {
-        AirportDto updatedAirportDto = service.updateAirportData(id,airportDtoUpdateData);
+    public ResponseEntity<AirportDto> putAirportById(@PathVariable Long id,
+            @RequestBody AirportDto airportDtoUpdateData) {
+        AirportDto updatedAirportDto = service.updateAirportData(id, airportDtoUpdateData);
         return ResponseEntity.ok(updatedAirportDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAiportById(@PathVariable Long id) {
-            service.deleteById(id);
-            return ResponseEntity.noContent().build();
-       
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+
     }
 
 }

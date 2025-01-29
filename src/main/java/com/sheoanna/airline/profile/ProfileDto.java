@@ -1,3 +1,5 @@
 package com.sheoanna.airline.profile;
 
-public record ProfileDto(String photoUrl) {}
+import com.sheoanna.airline.users.UserIdDto;
+
+public record ProfileDto(String email, String phoneNumber, String address, UserIdDto user) {}

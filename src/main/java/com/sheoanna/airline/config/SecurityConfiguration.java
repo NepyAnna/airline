@@ -43,22 +43,16 @@ public class SecurityConfiguration {
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
                         .requestMatchers(HttpMethod.GET, endpoint + "/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, endpoint + "/airport").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, endpoint + "/airport").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, endpoint + "/airport/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, endpoint + "/airport/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, endpoint + "/flights").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, endpoint + "/flights/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, endpoint + "/flights/**").hasRole("ADMIN")
+                        .requestMatchers(endpoint + "/private/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, endpoint + "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,endpoint + "/bookings").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, endpoint + "/profiles").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, endpoint + "/bookings").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, endpoint + "/bookings/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET, endpoint + "/profiles/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, endpoint + "/bookings").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, endpoint + "/bookings/**").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, endpoint + "/profiles/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, endpoint + "/profiles/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, endpoint + "/profiles").hasRole("USER")
                         .anyRequest().authenticated())
                 .userDetailsService(jpaUserDetailsService)
                 .httpBasic(withDefaults())
@@ -75,3 +69,14 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 }
+/*
+ .requestMatchers(HttpMethod.GET, endpoint + "/airport").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, endpoint + "/airport").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, endpoint + "/airport/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, endpoint + "/airport/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, endpoint + "/flights").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, endpoint + "/flights/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, endpoint + "/flights/**").hasRole("ADMIN")
+ 
+ */
