@@ -12,6 +12,7 @@ import com.sheoanna.airline.flights.FlightRepository;
 import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserDto;
+import com.sheoanna.airline.users.UserNameDto;
 import com.sheoanna.airline.users.UserRepository;
 import com.sheoanna.airline.users.exceptions.UserNotFoundException;
 
@@ -151,8 +152,8 @@ public class BookingService {
         return booking.getStatus() == BookingStatus.CONFIRMED;
     }
 
-    private UserDto toUserDto(User user) {
-        return new UserDto(user.getUsername(), user.getPassword());
+    private UserNameDto toUserDto(User user) {
+        return new UserNameDto(user.getUsername());
     }
 
     private FlightDto flightToFlightDto(Flight flight) {
