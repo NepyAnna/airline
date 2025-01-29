@@ -62,7 +62,7 @@ public class FlightService {
                                 departureAirport,
                                 arrivalAirport,
                                 newFlightData.dateFlight(),
-                                newFlightData.statusFlight(),
+                                newFlightData.status(),
                                 newFlightData.price(),
                                 newFlightData.availableSeats(),
                                 newFlightData.totalSeats());
@@ -92,7 +92,7 @@ public class FlightService {
                 existingFlight.setDepartureAirport(departureAirport);
                 existingFlight.setArrivalAirport(arrivalAirport);
                 existingFlight.setDateFlight(flightDtoUpdateData.dateFlight());
-                existingFlight.setStatusFlight(flightDtoUpdateData.statusFlight());
+                existingFlight.setStatusFlight(flightDtoUpdateData.status());
                 existingFlight.setPrice(flightDtoUpdateData.price());
                 existingFlight.setAvailableSeats(flightDtoUpdateData.availableSeats());
                 existingFlight.setTotalSeats(flightDtoUpdateData.totalSeats());
