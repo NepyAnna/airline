@@ -3,6 +3,7 @@ package com.sheoanna.airline.airport;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,13 +19,14 @@ public class AirportRepositoryTest {
     @Autowired
     AirportRepository repository;
 
+
+    
     @Test
     @DisplayName("Find all countries")
     void testGetAllAirports() {
-        entityManager.clear();
         Airport air = new Airport(1l, "Los Angeles International Airport", "FFF");
 
-        entityManager.merge(air);
+        entityManager.persist(air);
 
         List<Airport> airports1 = repository.findAll();
         assertThat(airports1.get(0).getCodeIata()).isEqualTo("FFF");
