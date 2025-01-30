@@ -5,10 +5,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.sheoanna.airline.bookings.Booking;
-import com.sheoanna.airline.bookings.exceptions.BookingNotFoundException;
-import com.sheoanna.airline.flights.Flight;
 import com.sheoanna.airline.profile.exceptions.ProfileAlreadyExistsException;
 import com.sheoanna.airline.profile.exceptions.ProfileNotFoundException;
 import com.sheoanna.airline.users.User;

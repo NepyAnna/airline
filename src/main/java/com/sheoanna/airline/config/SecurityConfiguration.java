@@ -69,14 +69,3 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 }
-/*
- .requestMatchers(HttpMethod.GET, endpoint + "/airport").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, endpoint + "/airport").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, endpoint + "/airport/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, endpoint + "/airport/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, endpoint + "/flights").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, endpoint + "/flights").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, endpoint + "/flights/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, endpoint + "/flights/**").hasRole("ADMIN")
- 
- */

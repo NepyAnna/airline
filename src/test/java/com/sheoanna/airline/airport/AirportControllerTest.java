@@ -31,7 +31,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(AirportController.class)
 @AutoConfigureMockMvc(addFilters = false)
-
 class AirportControllerTest {
     @Autowired
     private MockMvc mockMvc;

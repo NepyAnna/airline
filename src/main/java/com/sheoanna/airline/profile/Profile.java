@@ -1,10 +1,5 @@
 package com.sheoanna.airline.profile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-
-import org.springframework.util.ResourceUtils;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sheoanna.airline.users.User;
 

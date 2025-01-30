@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
 @RestController
 @RequestMapping("${api-endpoint}/private/flights")
 public class FlightController {
     private FlightService service;
 
-    public FlightController(FlightService service){
+    public FlightController(FlightService service) {
         this.service = service;
     }
 
@@ -33,7 +32,7 @@ public class FlightController {
         FlightDto flightDto = service.getById(id);
         return ResponseEntity.ok(flightDto);
     }
-    
+
     @PostMapping("")
     public ResponseEntity<FlightDto> create(@RequestBody FlightDto newFlightDtoData) {
         FlightDto createFlightDto = service.store(newFlightDtoData);
@@ -42,13 +41,14 @@ public class FlightController {
 
     @PutMapping("/{id}")
     public ResponseEntity<FlightDto> putFlightById(@PathVariable Long id, @RequestBody FlightDto flightUpdatedDataDto) {
-       FlightDto updatedFlightDto = service.updateFlight(id,flightUpdatedDataDto);
+        FlightDto updatedFlightDto = service.updateFlight(id, flightUpdatedDataDto);
         return ResponseEntity.ok(updatedFlightDto);
     }
-     @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFlightById(@PathVariable Long id) {
-            service.deleteById(id);
-            return ResponseEntity.noContent().build();
-       
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+
     }
 }
