@@ -46,6 +46,7 @@ CREATE TABLE profiles (
     address VARCHAR(255),
     user_id INT NOT NULL,
     photo BLOB,
+    photo_url VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(id_user)
 );
 

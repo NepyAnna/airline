@@ -14,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@SpringBootTest
+import com.sheoanna.airline.AirlineApplication;
+
+@SpringBootTest(classes = AirlineApplication.class)
 public class EncryptionFacadeTest {
   
     @Autowired

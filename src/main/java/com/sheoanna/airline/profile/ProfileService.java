@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sheoanna.airline.bookings.Booking;
+import com.sheoanna.airline.bookings.exceptions.BookingNotFoundException;
+import com.sheoanna.airline.flights.Flight;
 import com.sheoanna.airline.profile.exceptions.ProfileAlreadyExistsException;
 import com.sheoanna.airline.profile.exceptions.ProfileNotFoundException;
 import com.sheoanna.airline.users.User;
@@ -54,6 +57,13 @@ public class ProfileService {
 
         return new ProfileDto(savedProfile.getEmail(), savedProfile.getPhoneNumber(), savedProfile.getAddress(),
                 new UserIdDto(savedProfile.getUser().getIdUser()));
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        Profile profile = repository.findById(id)
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
+        repository.delete(profile);
     }
 
     public void uploadPhoto(Long id, MultipartFile file) throws IOException {

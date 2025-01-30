@@ -1,5 +1,10 @@
 package com.sheoanna.airline.profile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+
+import org.springframework.util.ResourceUtils;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sheoanna.airline.users.User;
 
@@ -11,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -64,4 +70,22 @@ public class Profile {
         this.photoUrl = photoUrl;
         this.user = user;
     }
+
+    @PrePersist
+public void setDefaultPhoto() {
+    if (this.photo == null && (this.photoUrl == null || this.photoUrl.isEmpty())) {
+        this.photoUrl = "https://postimg.cc/Y4hcfndB";
+    }
+}
+/* 
+    @PrePersist
+    public void setDefaultPhoto() {
+        if (this.photo == null) {
+            try {
+                this.photo = Files.readAllBytes(ResourceUtils.getFile("classpath:static/default.jpg").toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +55,12 @@ public class ProfileController {
             throws IOException {
         service.uploadPhoto(id, file);
         return ResponseEntity.ok("Photo uploaded successfully!");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBookingById(@PathVariable Long id){
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
