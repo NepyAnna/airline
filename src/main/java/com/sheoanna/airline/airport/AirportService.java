@@ -17,12 +17,6 @@ public class AirportService {
 
     public List<Airport> getAll() {
         List<Airport> airports = repository.findAll();
-        
-        List<AirportDto> airportsDto = airports.stream().map(airport -> new AirportDto(
-            airport.getIdAirport(),
-            airport.getNameAirport(),
-            airport.getCodeIata())).toList();
-
         return airports;
     }
 

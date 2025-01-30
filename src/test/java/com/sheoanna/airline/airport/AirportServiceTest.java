@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import com.sheoanna.airline.airport.exceptions.AirportAlreadyExistsException;
 import com.sheoanna.airline.airport.exceptions.AirportNotFoundException;
@@ -40,10 +37,6 @@ public class AirportServiceTest {
         Airport airport2 = new Airport(2L, "Airport2", "BBB");
         airportList.add(airport1);
         airportList.add(airport2);
-
-        List<AirportDto> airportListDto = airportList.stream()
-                .map(airport -> new AirportDto(airport.getIdAirport(), airport.getNameAirport(), airport.getCodeIata()))
-                .toList();
 
         when(airportService.getAll()).thenReturn(airportList);
 
