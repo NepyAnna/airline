@@ -1,33 +1,43 @@
 # airline
 Опис проекту:
 
+## ✅Installation Steps
+``git clone https://github.com/NepyAnna/airline.git``
 
-#All end-points:
+## ✅API Endpoints
 
-GET http://localhost:8080/api/v1/private/airports
-GET http://localhost:8080/api/v1/private/airports/{id}
+GET http://localhost:8080/api/v1/private/airports  to get list with all airports.
+
+GET http://localhost:8080/api/v1/private/airports/{id} to get airport by ID.
+
 GET http://localhost:8080/api/v1/private/airports/{codeIata}
+
 POST http://localhost:8080/api/v1/private/airports
+
 PUT http://localhost:8080/api/v1/private/airports/{id}
+
 DELETE http://localhost:8080/api/v1/private/airports
 
-GET http://localhost:8080/api/v1/private/flights
+
+GET http://localhost:8080/api/v1/private/flights to get list with all flihgts.
+
 GET http://localhost:8080/api/v1/private/flights/{id}
-GET http://localhost:8080/api/v1/private/flights/{codeIata}
+
 POST http://localhost:8080/api/v1/private/flights
+
 PUT http://localhost:8080/api/v1/private/flights/{id}
+
 DELETE http://localhost:8080/api/v1/private/flights
+
 
 GET http://localhost:8080/api/v1/bookings
 GET http://localhost:8080/api/v1/bookings/{id}
-GET http://localhost:8080/api/v1/bookings/{codeIata}
 POST http://localhost:8080/api/v1/bookings
 PUT http://localhost:8080/api/v1/bookings/{id}
 DELETE http://localhost:8080/api/v1/bookings
 
 GET http://localhost:8080/api/v1/users
 GET http://localhost:8080/api/v1/users/{id}
-GET http://localhost:8080/api/v1/users/{codeIata}
 POST http://localhost:8080/api/v1/users
 PUT http://localhost:8080/api/v1/users/{id}
 DELETE http://localhost:8080/api/v1/users
@@ -53,3 +63,11 @@ endpoint + "/profiles"
 
 ## ✅Contributors
 NepyAnna [![NepyAnna](https://img.icons8.com/ios-glyphs/30/000000/github.png)](https://github.com/NepyAnna)
+
+## ✅Disclaimer
+This project is developed as part of a bootcamp learning experience and is intended for educational purposes only. The creators and contributors are not responsible for any issues, damages, or losses that may occur from using this code.
+This project is not meant for commercial use, and any trademarks or references to third-party services (such as Funko) belong to their respective owners. By using this code, you acknowledge that it is a work in progress, created by learners, and comes without warranties or guarantees of any kind.
+
+Use at your own discretion and risk.
+
+Thank You! ❤️
