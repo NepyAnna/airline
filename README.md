@@ -10,37 +10,44 @@ GET http://localhost:8080/api/v1/private/airports  to get list with all airports
 
 GET http://localhost:8080/api/v1/private/airports/{id} to get airport by ID.
 
-GET http://localhost:8080/api/v1/private/airports/{codeIata}
+GET http://localhost:8080/api/v1/private/airports/{codeIata} to get airport by code IATA.
 
-POST http://localhost:8080/api/v1/private/airports
+POST http://localhost:8080/api/v1/private/airports  to add new airport.
 
-PUT http://localhost:8080/api/v1/private/airports/{id}
+PUT http://localhost:8080/api/v1/private/airports/{id} to update airport data.
 
-DELETE http://localhost:8080/api/v1/private/airports
+DELETE http://localhost:8080/api/v1/private/airports to delete airport.
 
 
 GET http://localhost:8080/api/v1/private/flights to get list with all flihgts.
 
-GET http://localhost:8080/api/v1/private/flights/{id}
+GET http://localhost:8080/api/v1/private/flights/{id} to get flights by ID.
 
-POST http://localhost:8080/api/v1/private/flights
+POST http://localhost:8080/api/v1/private/flights to add new flight.
 
-PUT http://localhost:8080/api/v1/private/flights/{id}
+PUT http://localhost:8080/api/v1/private/flights/{id} to update flights data.
 
-DELETE http://localhost:8080/api/v1/private/flights
+DELETE http://localhost:8080/api/v1/private/flights to delete flight.
 
 
-GET http://localhost:8080/api/v1/bookings
-GET http://localhost:8080/api/v1/bookings/{id}
-POST http://localhost:8080/api/v1/bookings
-PUT http://localhost:8080/api/v1/bookings/{id}
-DELETE http://localhost:8080/api/v1/bookings
+GET http://localhost:8080/api/v1/bookings to get list with all 
 
-GET http://localhost:8080/api/v1/users
-GET http://localhost:8080/api/v1/users/{id}
-POST http://localhost:8080/api/v1/users
-PUT http://localhost:8080/api/v1/users/{id}
-DELETE http://localhost:8080/api/v1/users
+GET http://localhost:8080/api/v1/bookings/{id} to get booking by ID.
+
+POST http://localhost:8080/api/v1/bookings to add new booking.
+
+PUT http://localhost:8080/api/v1/bookings/{id} to update booking data.
+
+DELETE http://localhost:8080/api/v1/bookings to delete booking by ID.
+
+
+GET http://localhost:8080/api/v1/users  to get list with all 
+
+GET http://localhost:8080/api/v1/users/{id} to get user by ID.
+
+PUT http://localhost:8080/api/v1/users/{id} to update user data.
+
+DELETE http://localhost:8080/api/v1/users to delete  to delete user.
 
 
 endpoint + "/profiles"
