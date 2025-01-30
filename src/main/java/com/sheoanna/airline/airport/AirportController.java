@@ -23,8 +23,8 @@ public class AirportController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<AirportDto>> index() {
-        List<AirportDto> airports = service.getAll();
+    public ResponseEntity<List<Airport>> index() {
+        List<Airport> airports = service.getAll();
         return ResponseEntity.ok(airports);
     }
 

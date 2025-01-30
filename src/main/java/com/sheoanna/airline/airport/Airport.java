@@ -41,4 +41,12 @@ public class Airport {
         this.nameAirport = nameAirport;
         this.codeIata = codeIata;
     }
+
+    public Airport(Long idAirport, String nameAirport, String codeIata) {
+        this.idAirport = idAirport;
+        this.nameAirport = nameAirport;
+        this.codeIata = codeIata;
+    }
+
+
 }

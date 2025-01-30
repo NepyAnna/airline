@@ -15,13 +15,15 @@ public class AirportService {
         this.repository = repository;
     }
 
-    public List<AirportDto> getAll() {
+    public List<Airport> getAll() {
         List<Airport> airports = repository.findAll();
+        
+        List<AirportDto> airportsDto = airports.stream().map(airport -> new AirportDto(
+            airport.getIdAirport(),
+            airport.getNameAirport(),
+            airport.getCodeIata())).toList();
 
-        return airports.stream().map(airport -> new AirportDto(
-                airport.getIdAirport(),
-                airport.getNameAirport(),
-                airport.getCodeIata())).toList();
+        return airports;
     }
 
     public AirportDto getById(Long id) {
@@ -41,7 +43,7 @@ public class AirportService {
     public AirportDto store(AirportDto newAirportData) {
         Airport airport = new Airport(newAirportData.nameAirport(), newAirportData.codeIata());
         if (repository.findByCodeIata(airport.getCodeIata()) != null) {
-            throw new AirportAlreadyExistsException("Airport with cod: " + airport.getCodeIata() + "already exists!");
+            throw new AirportAlreadyExistsException("Airport with cod: " + airport.getCodeIata() + " already exists!");
         }
         Airport savedAirport = repository.save(airport);
         return new AirportDto(savedAirport.getIdAirport(), savedAirport.getNameAirport(), savedAirport.getCodeIata());

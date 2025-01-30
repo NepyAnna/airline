@@ -1,26 +1,35 @@
 package com.sheoanna.airline.airport;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SuppressWarnings("removal")
 @WebMvcTest(AirportController.class)
 @AutoConfigureMockMvc(addFilters = false)
 
@@ -28,24 +37,30 @@ class AirportControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private AirportService airportService;
 
-    @InjectMocks
-    private AirportController airportController;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+    @Autowired
+    ObjectMapper mapper;
 
     @Test
     void testGetAllAirports() throws Exception {
-        List<AirportDto> airports = List.of(new AirportDto(1L, "JFK", "John F. Kennedy International Airport"));
+        List<Airport> airports = new ArrayList<>();
+        Airport first = new Airport(1L, "JFK", "John F. Kennedy International Airport");
+        airports.add(first);
+
         when(airportService.getAll()).thenReturn(airports);
-    
-        mockMvc.perform(get("/api/v1/private/airports"))
-                .andExpect(status().isOk());
+        MockHttpServletResponse response = mockMvc.perform(get("/api/v1/private/airports")
+                .accept(MediaType.APPLICATION_JSON)
+                .content("application/json"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus(), is(200));
+        assertThat(response.getContentAsString(), containsString(first.getCodeIata()));
+        assertThat(response.getContentAsString(), equalTo(mapper.writeValueAsString(airports)));
+
     }
 
     @Test
@@ -55,6 +70,25 @@ class AirportControllerTest {
 
         mockMvc.perform(get("/api/v1/private/airports/1"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void testControllerHasPathToPostCountry() throws Exception {
+        AirportDto airport = new AirportDto(1L, "JFK", "John F. Kennedy International Airport");
+
+        String json = mapper.writeValueAsString(airport);
+
+        when(airportService.store(Mockito.any(AirportDto.class))).thenReturn(airport);
+        MockHttpServletResponse response = mockMvc.perform(post("/api/v1/private/airports")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus(), is(200));
+        assertThat(response.getContentAsString(), is(json));
+
     }
 
     @Test
