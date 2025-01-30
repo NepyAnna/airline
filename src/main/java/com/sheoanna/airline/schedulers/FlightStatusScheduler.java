@@ -19,7 +19,7 @@ public class FlightStatusScheduler {
         this.flightRepository = flightRepository;
     }
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     public void updateFlightStatuses() {
         List<Flight> flights = flightRepository.findAll();

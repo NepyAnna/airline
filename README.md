@@ -4,44 +4,52 @@
 
 #All end-points:
 
-endpoint + "/airports"
-endpoint + "/flights"
-endpoint + "/bookings"
-endpoint + "/users"
+GET http://localhost:8080/api/v1/private/airports
+GET http://localhost:8080/api/v1/private/airports/{id}
+GET http://localhost:8080/api/v1/private/airports/{codeIata}
+POST http://localhost:8080/api/v1/private/airports
+PUT http://localhost:8080/api/v1/private/airports/{id}
+DELETE http://localhost:8080/api/v1/private/airports
+
+GET http://localhost:8080/api/v1/private/flights
+GET http://localhost:8080/api/v1/private/flights/{id}
+GET http://localhost:8080/api/v1/private/flights/{codeIata}
+POST http://localhost:8080/api/v1/private/flights
+PUT http://localhost:8080/api/v1/private/flights/{id}
+DELETE http://localhost:8080/api/v1/private/flights
+
+GET http://localhost:8080/api/v1/bookings
+GET http://localhost:8080/api/v1/bookings/{id}
+GET http://localhost:8080/api/v1/bookings/{codeIata}
+POST http://localhost:8080/api/v1/bookings
+PUT http://localhost:8080/api/v1/bookings/{id}
+DELETE http://localhost:8080/api/v1/bookings
+
+GET http://localhost:8080/api/v1/users
+GET http://localhost:8080/api/v1/users/{id}
+GET http://localhost:8080/api/v1/users/{codeIata}
+POST http://localhost:8080/api/v1/users
+PUT http://localhost:8080/api/v1/users/{id}
+DELETE http://localhost:8080/api/v1/users
+
+
 endpoint + "/profiles"
-endpoint + 
-#### Управління users:
-++Реєстрація, автентифікація та керування ролями (ROLE_ADMIN та ROLE_USER).
-++Генерація та перевірка токенів JWT або використання Cookies для безпечних сесій у разі використання Basic Auth.
-#### Управління flights:
-++Автоматичне створення рейсів у базі даних під час компіляції (за допомогою файлу `.sql`).
-++Зміна статусу рейсу на "недоступний", коли закінчаться місця або сплине дата.
-#### Пошукова система : 
-++ Пошук за вказаними аеропортами вильоту та прибуття, датою та кількістю місць для бронювання.
-#### Управління бронюваннями:
-++Дозволити бронювання лише за умови існування вибраного маршруту та наявності місць.
-++ Перевірка доступності перед підтвердженням бронювання.
-++- Блокування місць на 15 хвилин під час оформлення бронювання.
-#### Управління для адміністратора (ROLE_ADMIN):
-++ CRUD для airports.
-++ CRUD для flights.
-++Перегляд зведеного списку booking клієнтів.
-?+- Отримання історії бронювань кожного користувача./може пошук Bookings за id_user або достатньо що юзер зберігає свої букінги?
- #### Управління для клієнта (ROLE_USER):
-++ Реєстрація.
-+-Завантаження зображення профілю (або використання зображення за замовчуванням, якщо воно відсутнє).
-++Логін.
-+- Отримання списку bookings із деталями рейсів.//GetByUserId???
-+ Бронювання лише після авторизації.
 
-### Додаткові можливості:
-- Розгортання у Docker і завантаження зображення в Docker Hub.
-- Використання GitHub Actions для автоматизації CI (збирання та запуск тестів).
-- Автоматизація тестів із Postman.
+## ✅Running Tests
+- Run the tests to validate the code functionality and observe test coverage.
+- The project ensures a minimum of 70% coverage across all methods.
 
-### Очікувані результати:
-1. Вихідний код бекенда в Spring Boot (посилання на GitHub).
-2. Колекція Postman з усіма кінцевими точками та проведеними тестами (для показу під час перевірки).
-3. Документація API (повний Readme, діаграми, список кінцевих точок тощо).
-4. Презентація процесу розробки API.
-5. Docker-образ програми, завантажений у Docker Hub (додатково).
+## ✅Database Schema
+[![temp-Image-Iet-YBF.avif](https://i.postimg.cc/yYYbG9hX/temp-Image-Iet-YBF.avif)](https://postimg.cc/9zKbRDnr)
+
+## ✅Technology Stack
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) 
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+
+## ✅Contributors
+NepyAnna [![NepyAnna](https://img.icons8.com/ios-glyphs/30/000000/github.png)](https://github.com/NepyAnna)

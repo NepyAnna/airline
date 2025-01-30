@@ -73,8 +73,9 @@ public class BookingService {
         flightRepository.save(flight);
 
         Booking booking = new Booking();
-        booking.setUser(userRepository.findByUsername(bookingDto.user().username()).orElseThrow(() -> new UserNotFoundException("User not found with username: " + bookingDto.user().username())));
-                
+        booking.setUser(userRepository.findByUsername(bookingDto.user().username()).orElseThrow(
+                () -> new UserNotFoundException("User not found with username: " + bookingDto.user().username())));
+
         booking.setFlight(flight);
         booking.setDateBooking(bookingDto.dateBooking());
         booking.setBookedSeats(bookingDto.bookedSeats());
@@ -82,7 +83,7 @@ public class BookingService {
 
         Booking savedBooking = repository.save(booking);
 
-        scheduleSeatRelease(savedBooking);// !!!!!!!!!!!!!!!!!!CHECK!!!!!!!!!!!!!!!!!!!
+        scheduleSeatRelease(savedBooking);
 
         return bookingToBookingDto(savedBooking);
     }
@@ -92,11 +93,11 @@ public class BookingService {
         Booking existingBooking = repository.findById(id)
                 .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
 
+        User user = userRepository.findByUsername(bookingDto.user().username())
+                .orElseThrow(() -> new UserNotFoundException(
+                        "User not found with username: " + bookingDto.user().username()));
 
-                User user = userRepository.findByUsername(bookingDto.user().username())
-                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + bookingDto.user().username()));
-
-               Flight flight = flightRepository.findFlightByParameters(
+        Flight flight = flightRepository.findFlightByParameters(
                 bookingDto.flight().departureAirport().idAirport(),
                 bookingDto.flight().arrivalAirport().idAirport(),
                 bookingDto.flight().dateFlight(),
@@ -130,8 +131,6 @@ public class BookingService {
         flightRepository.save(flight);
         repository.delete(booking);
     }
-
-    ////////////////// CHEcCK???????????????????????????????????????
 
     private void scheduleSeatRelease(Booking booking) {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);

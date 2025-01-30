@@ -52,7 +52,7 @@ public class Flight {
     @Column(name = "total_seats", length = 10)
     private int totalSeats;
 
-    @OneToMany(mappedBy = "flight",cascade = CascadeType.ALL)//, orphanRemoval = true (видаляє повязані записи при видалені батьківських сутностей) 
+    @OneToMany(mappedBy = "flight",cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Booking> bookings;
 
@@ -70,6 +70,8 @@ public class Flight {
     public void updateStatusIfNeeded() {
         if (availableSeats == 0 || dateFlight.isBefore(LocalDateTime.now())) {
             statusFlight = FlightStatus.UNAVAILABLE;
+        } else {
+            statusFlight = FlightStatus.AVAILABLE;
         }
     }
 }
