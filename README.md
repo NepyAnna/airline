@@ -1,5 +1,5 @@
 # airline
-Опис проекту:
+The project aims to develop a management system for an airline using Spring with Spring Boot and Spring Security. This system will allow the comprehensive management of users, flights, reservations and destinations, with advanced features such as secure authentication using Basic Auth or JWT. The system cannot allow the selection of flights without available seats or that have passed the deadline. The project will be implemented using Java 21, Maven and MySQL or PostgreSQL.
 
 ## ✅Installation Steps
 ``git clone https://github.com/NepyAnna/airline.git``
