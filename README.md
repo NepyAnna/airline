@@ -48,6 +48,7 @@ DELETE http://localhost:8080/api/v1/profiles/{id}  to delete user by id.
 ## ✅Running Tests
 - Run the tests to validate the code functionality and observe test coverage.
 - The project ensures more than 70% coverage across all methods.
+
 [![temp-Image8-Z32s6.avif](https://i.postimg.cc/y8FMr2cp/temp-Image8-Z32s6.avif)](https://postimg.cc/G4mg47Mv)
 
 ## ✅ER Diagram(Crow's feet)
