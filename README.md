@@ -51,7 +51,7 @@ DELETE http://localhost:8080/api/v1/profiles/{id}  to delete user by id.
 [![temp-Image8-Z32s6.avif](https://i.postimg.cc/y8FMr2cp/temp-Image8-Z32s6.avif)](https://postimg.cc/G4mg47Mv)
 
 ## ✅ER Diagram(Crow's feet)
-
+[![temp-Image-WLvm4-U.avif](https://i.postimg.cc/gjG073B1/temp-Image-WLvm4-U.avif)](https://postimg.cc/ftgZtSsv)
 
 ## ✅ClassDiagram
 [![temp-Image-K8-Rn-U3.avif](https://i.postimg.cc/htrCmn9n/temp-Image-K8-Rn-U3.avif)](https://postimg.cc/Wdd6RQWY)
@@ -64,6 +64,9 @@ DELETE http://localhost:8080/api/v1/profiles/{id}  to delete user by id.
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+
 
 ## ✅Contributors
 NepyAnna [![NepyAnna](https://img.icons8.com/ios-glyphs/30/000000/github.png)](https://github.com/NepyAnna)
