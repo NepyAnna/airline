@@ -8,8 +8,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,9 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.airport.AirportDto;
-import com.sheoanna.airline.flights.Flight;
+
 import com.sheoanna.airline.flights.FlightDto;
 import com.sheoanna.airline.flights.FlightStatus;
 import com.sheoanna.airline.users.UserNameDto;
@@ -31,23 +30,40 @@ import com.sheoanna.airline.users.UserNameDto;
 @AutoConfigureMockMvc(addFilters = false)
 class BookingControllerTest {
 
-    @MockitoBean
+    @Mock
     private BookingService bookingService;
 
     @InjectMocks
     private BookingController bookingController;
 
-    @BeforeEach
-    public void setUp(){
+    @Test
+    void testIndex() {
         AirportDto departureAirport = new AirportDto(1L, "Departure Airport", "DPT");
         AirportDto arrivalAirport = new AirportDto(2L, "Arrival Airport", "ARR");
-        FlightDto flight = new FlightDto(1L, departureAirport, arrivalAirport, LocalDateTime.now(), FlightStatus.AVAILABLE, 200.0f, 100, 150);
+        FlightDto flight = new FlightDto(1L, departureAirport, arrivalAirport, LocalDateTime.now(),
+                FlightStatus.AVAILABLE, 200.0f, 100, 150);
+        BookingDto booking1 = new BookingDto(1L, new UserNameDto("john"), flight, LocalDateTime.now(), 2);
+        BookingDto booking2 = new BookingDto(2L, new UserNameDto("jane"), flight, LocalDateTime.now(), 3);
+
+        List<BookingDto> bookings = List.of(booking1, booking2);
+
+        when(bookingService.getAll()).thenReturn(bookings);
+        List<BookingDto> response = bookingController.index();
+
+        assertNotNull(response);
+        assertEquals(2, response.size());
+        assertEquals(1L, response.get(0).idBooking());
+        assertEquals("john", response.get(0).user().username());
+
+        verify(bookingService).getAll();
     }
+
     @Test
     void testCreateBooking() {
         AirportDto departureAirport = new AirportDto(1L, "Departure Airport", "DPT");
         AirportDto arrivalAirport = new AirportDto(2L, "Arrival Airport", "ARR");
-        FlightDto flight = new FlightDto(1L, departureAirport, arrivalAirport, LocalDateTime.now(), FlightStatus.AVAILABLE, 200.0f, 100, 150);
+        FlightDto flight = new FlightDto(1L, departureAirport, arrivalAirport, LocalDateTime.now(),
+                FlightStatus.AVAILABLE, 200.0f, 100, 150);
         BookingDto newBookingDto = new BookingDto(1L, new UserNameDto("john"), flight, LocalDateTime.now(), 2);
         BookingDto savedBookingDto = new BookingDto(1L, new UserNameDto("john"), flight, LocalDateTime.now(), 2);
 
@@ -64,8 +80,9 @@ class BookingControllerTest {
     void testUpdateBooking() {
         AirportDto departureAirport = new AirportDto(1L, "Departure Airport", "DPT");
         AirportDto arrivalAirport = new AirportDto(2L, "Arrival Airport", "ARR");
-        FlightDto flight = new FlightDto(1L, departureAirport, arrivalAirport, LocalDateTime.now(), FlightStatus.AVAILABLE, 200.0f, 100, 150);
-      
+        FlightDto flight = new FlightDto(1L, departureAirport, arrivalAirport, LocalDateTime.now(),
+                FlightStatus.AVAILABLE, 200.0f, 100, 150);
+
         Long bookingId = 1L;
         BookingDto updatedBookingDto = new BookingDto(1L, new UserNameDto("john"), flight, LocalDateTime.now(), 2);
         BookingDto updatedBooking = new BookingDto(1L, new UserNameDto("john"), flight, LocalDateTime.now(), 2);
