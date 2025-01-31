@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, endpoint + "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, endpoint + "/login").permitAll()
                         .requestMatchers(endpoint + "/private/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, endpoint + "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, endpoint + "/bookings").hasRole("ADMIN")

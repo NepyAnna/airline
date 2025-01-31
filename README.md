@@ -1,63 +1,60 @@
 # airline
-The project aims to develop a management system for an airline using Spring with Spring Boot and Spring Security. This system will allow the comprehensive management of users, flights, reservations and destinations, with advanced features such as secure authentication using Basic Auth or JWT. The system cannot allow the selection of flights without available seats or that have passed the deadline. The project will be implemented using Java 21, Maven and MySQL or PostgreSQL.
+The project aims to develop a management system for an airline using Spring with Spring Boot and Spring Security. This system will allow the comprehensive management of users, flights, reservations and destinations, with advanced features such as secure authentication using Basic Auth. The system cannot allow the selection of flights without available seats or that have passed the deadline. The project will be implemented using Java 21, Maven and MySQL or PostgreSQL.
 
 ## ✅Installation Steps
 ``git clone https://github.com/NepyAnna/airline.git``
 
 ## ✅API Endpoints
+POST http://localhost:8080/api/v1/registar registration of users.
+POST http://localhost:8080/api/v1/login login for users.
+     http://localhost:8080/api/v1/login logout.
 
 GET http://localhost:8080/api/v1/private/airports  to get list with all airports.
-
 GET http://localhost:8080/api/v1/private/airports/{id} to get airport by ID.
-
 GET http://localhost:8080/api/v1/private/airports/{codeIata} to get airport by code IATA.
-
 POST http://localhost:8080/api/v1/private/airports  to add new airport.
-
 PUT http://localhost:8080/api/v1/private/airports/{id} to update airport data.
-
 DELETE http://localhost:8080/api/v1/private/airports to delete airport.
 
 
 GET http://localhost:8080/api/v1/private/flights to get list with all flihgts.
-
 GET http://localhost:8080/api/v1/private/flights/{id} to get flights by ID.
-
 POST http://localhost:8080/api/v1/private/flights to add new flight.
-
 PUT http://localhost:8080/api/v1/private/flights/{id} to update flights data.
-
 DELETE http://localhost:8080/api/v1/private/flights to delete flight.
 
-
-GET http://localhost:8080/api/v1/bookings to get list with all 
-
+GET http://localhost:8080/api/v1/bookings to get list with all bookings.
 GET http://localhost:8080/api/v1/bookings/{id} to get booking by ID.
-
 POST http://localhost:8080/api/v1/bookings to add new booking.
-
 PUT http://localhost:8080/api/v1/bookings/{id} to update booking data.
-
 DELETE http://localhost:8080/api/v1/bookings to delete booking by ID.
 
 
-GET http://localhost:8080/api/v1/users  to get list with all 
-
+GET http://localhost:8080/api/v1/users  to get list with all.
 GET http://localhost:8080/api/v1/users/{id} to get user by ID.
-
 PUT http://localhost:8080/api/v1/users/{id} to update user data.
-
 DELETE http://localhost:8080/api/v1/users to delete  to delete user.
 
 
-endpoint + "/profiles"
+GET http://localhost:8080/api/v1/profiles  to get list with all profiles.
+GET http://localhost:8080/api/v1/profiles/{id}  to get profile by id.
+POST http://localhost:8080/api/v1/profiles  to add new profile.
+Delete http://localhost:8080/api/v1/profiles/{id} to delete profile by id.
+
+GET http://localhost:8080/api/v1/users to grt all users.
+GET http://localhost:8080/api/v1/profiles/{id}  to get user by id.
+DELETE http://localhost:8080/api/v1/profiles/{id}  to delete user by id.
 
 ## ✅Running Tests
 - Run the tests to validate the code functionality and observe test coverage.
-- The project ensures a minimum of 70% coverage across all methods.
+- The project ensures more than 70% coverage across all methods.
+[![temp-Image8-Z32s6.avif](https://i.postimg.cc/y8FMr2cp/temp-Image8-Z32s6.avif)](https://postimg.cc/G4mg47Mv)
 
-## ✅Database Schema
-[![temp-Image-Iet-YBF.avif](https://i.postimg.cc/yYYbG9hX/temp-Image-Iet-YBF.avif)](https://postimg.cc/9zKbRDnr)
+## ✅ER Diagram(Crow's feet)
+
+
+## ✅ClassDiagram
+[![temp-Image-K8-Rn-U3.avif](https://i.postimg.cc/htrCmn9n/temp-Image-K8-Rn-U3.avif)](https://postimg.cc/Wdd6RQWY)
 
 ## ✅Technology Stack
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) 
