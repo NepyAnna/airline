@@ -1,7 +1,7 @@
 package com.sheoanna.airline.encryptions;
 
-    public interface IEncoder {
+public interface IEncoder {
 
-        String encode(String data);
-    
-    }
+    String encode(String data);
+
+}

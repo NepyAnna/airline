@@ -17,4 +17,3 @@ public class Base64System implements IEncoder {
     }
 
 }
-

@@ -11,7 +11,7 @@ import com.sheoanna.airline.role.Role;
 import com.sheoanna.airline.users.User;
 
 public class SecurityUser implements UserDetails {
-private User user;
+    private User user;
 
     public SecurityUser(User user) {
         this.user = user;

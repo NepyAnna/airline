@@ -22,7 +22,7 @@ public class AuthController {
         SecurityContext contextHolder = SecurityContextHolder.getContext();
         Authentication auth = contextHolder.getAuthentication();
 
-        Map<String,String> json = new HashMap<>();
+        Map<String, String> json = new HashMap<>();
         json.put("message", "Logged");
         json.put("username", auth.getName());
         json.put("roles", auth.getAuthorities().iterator().next().toString());

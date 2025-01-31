@@ -1,6 +1,6 @@
 package com.sheoanna.airline.bookings.exceptions;
 
-public class BookingException extends RuntimeException{
+public class BookingException extends RuntimeException {
     public BookingException(String message) {
         super(message);
     }

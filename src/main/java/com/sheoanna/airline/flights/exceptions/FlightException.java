@@ -1,6 +1,6 @@
 package com.sheoanna.airline.flights.exceptions;
 
-public class FlightException  extends RuntimeException {
+public class FlightException extends RuntimeException {
     public FlightException(String message) {
         super(message);
     }

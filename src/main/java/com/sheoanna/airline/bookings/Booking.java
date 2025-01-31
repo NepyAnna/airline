@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="bookings")
+@Table(name = "bookings")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +22,7 @@ import lombok.Setter;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "id_booking")
+    @Column(name = "id_booking")
     private Long idBooking;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -48,7 +48,7 @@ public class Booking {
         this.user = user;
         this.flight = flight;
         this.dateBooking = dateBooking;
-        this.bookedSeats =bookedSeats;
+        this.bookedSeats = bookedSeats;
     }
 
 }

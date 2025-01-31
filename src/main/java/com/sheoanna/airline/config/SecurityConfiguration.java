@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 import com.sheoanna.airline.security.JpaUserDetailsService;
 
 @Configuration
@@ -45,7 +44,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, endpoint + "/login").permitAll()
                         .requestMatchers(endpoint + "/private/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, endpoint + "/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,endpoint + "/bookings").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, endpoint + "/bookings").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, endpoint + "/profiles").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, endpoint + "/bookings/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET, endpoint + "/profiles/**").hasAnyRole("ADMIN", "USER")

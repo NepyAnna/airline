@@ -71,6 +71,4 @@ public class ProfileService {
                 new UserIdDto(profile.getUser().getIdUser()));
     }
 
-    
-
 }

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class AirportController {
     private AirportService service;
 
-
     public AirportController(AirportService service) {
         this.service = service;
     }

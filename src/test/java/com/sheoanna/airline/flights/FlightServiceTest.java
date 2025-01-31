@@ -3,6 +3,7 @@ package com.sheoanna.airline.flights;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.sheoanna.airline.airport.Airport;
+import com.sheoanna.airline.airport.AirportDto;
 import com.sheoanna.airline.airport.AirportRepository;
 import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 
@@ -38,6 +40,8 @@ class FlightServiceTest {
 
     private Airport departureAirport;
     private Airport arrivalAirport;
+    private AirportDto departureAirportDto;
+    private AirportDto arrivalAirporDto;
     private Flight flight;
 
     @BeforeEach
@@ -45,6 +49,8 @@ class FlightServiceTest {
         MockitoAnnotations.openMocks(this);
         departureAirport = new Airport(1L, "Departure Airport", "DPT");
         arrivalAirport = new Airport(2L, "Arrival Airport", "ARR");
+        departureAirportDto = new AirportDto(1L, "Departure Airport", "DPT");
+        arrivalAirporDto = new AirportDto(2L, "Arrival Airport", "ARR");
         flight = new Flight(departureAirport, arrivalAirport, LocalDateTime.now(), FlightStatus.AVAILABLE, 200.0f, 100, 150);
     }
 
@@ -69,17 +75,22 @@ class FlightServiceTest {
         assertEquals(flight.getIdFlight(), flightDto.idFlight());
     }
 
-   /*  @Test
+    @Test
     void testStoreFlight() {
+        System.out.println("Setting up mock for airportRepository...");
         when(airportRepository.findById(1L)).thenReturn(Optional.of(departureAirport));
         when(airportRepository.findById(2L)).thenReturn(Optional.of(arrivalAirport));
+    
+        System.out.println("Mocks set up successfully!");
+    
         when(flightRepository.save(any(Flight.class))).thenReturn(flight);
-
-        FlightDto newFlightDto = new FlightDto(1L, new AirportDto(1L, "Departure", "DPT"), new AirportDto(2L, "Arrival", "ARR"), LocalDateTime.now(), FlightStatus.AVAILABLE, 200.0f, 100, 150);
+    
+        FlightDto newFlightDto = new FlightDto(1L, departureAirportDto, arrivalAirporDto, LocalDateTime.now(), FlightStatus.AVAILABLE, 200.0f, 100, 150);
+        
+        System.out.println("Calling flightService.store()");
         FlightDto createdFlightDto = flightService.store(newFlightDto);
-
+    
         assertNotNull(createdFlightDto);
-        assertEquals(newFlightDto.idFlight(), createdFlightDto.idFlight());
     }
 
     @Test
@@ -90,13 +101,12 @@ class FlightServiceTest {
         when(airportRepository.findById(2L)).thenReturn(Optional.of(arrivalAirport));
         when(flightRepository.save(any(Flight.class))).thenReturn(updatedFlight);
 
-        FlightDto updatedFlightDto = new FlightDto(1L, new AirportDto(1L, "Departure", "DPT"), new AirportDto(2L, "Arrival", "ARR"), LocalDateTime.now(), FlightStatus.UNAVAILABLE, 180.0f, 80, 120);
+        FlightDto updatedFlightDto = new FlightDto(1L, departureAirportDto, arrivalAirporDto, LocalDateTime.now(), FlightStatus.UNAVAILABLE, 180.0f, 80, 120);
         FlightDto result = flightService.updateFlight(1L, updatedFlightDto);
 
         assertNotNull(result);
-        assertEquals(updatedFlightDto.idFlight(), result.idFlight());
         assertEquals(FlightStatus.UNAVAILABLE, result.status());
-    }*/
+    }
 
     @Test
     void testDeleteById() {

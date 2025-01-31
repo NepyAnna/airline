@@ -14,11 +14,11 @@ import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 @Service
 public class FlightService {
         private FlightRepository repository;
-        private final AirportRepository airportRepository;
+        private AirportRepository airportRepository;
 
-        public FlightService(FlightRepository repository, AirportRepository airportRepository) {
+        public FlightService(FlightRepository repository) {
                 this.repository = repository;
-                this.airportRepository = airportRepository;
+
         }
 
         public List<FlightDto> getAll() {

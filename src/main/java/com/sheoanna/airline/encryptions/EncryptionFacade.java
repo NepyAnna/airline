@@ -1,6 +1,5 @@
 package com.sheoanna.airline.encryptions;
 
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +18,10 @@ public class EncryptionFacade implements IEncryptFacade {
     public String encode(String type, String data) {
         String dataEncrypted = "";
 
-        if (type == "bcrypt") dataEncrypted = bcryptSystem.encode(data);
-        if (type == "base64") dataEncrypted = base64System.encode(data);
+        if (type == "bcrypt")
+            dataEncrypted = bcryptSystem.encode(data);
+        if (type == "base64")
+            dataEncrypted = base64System.encode(data);
 
         return dataEncrypted;
     }
@@ -29,7 +30,8 @@ public class EncryptionFacade implements IEncryptFacade {
     public String decode(String type, String data) {
         String dataDecoded = "";
 
-        if (type == "base64") dataDecoded = base64System.decode(data);
+        if (type == "base64")
+            dataDecoded = base64System.decode(data);
 
         return dataDecoded;
     }

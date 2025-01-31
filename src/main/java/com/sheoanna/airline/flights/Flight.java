@@ -43,7 +43,7 @@ public class Flight {
     @Column(length = 50, nullable = false)
     private FlightStatus statusFlight = FlightStatus.AVAILABLE;
 
-    @Column(name ="price", length = 50)
+    @Column(name = "price", length = 50)
     private float price;
 
     @Column(name = "available_seats", nullable = false)
@@ -52,11 +52,12 @@ public class Flight {
     @Column(name = "total_seats", length = 10)
     private int totalSeats;
 
-    @OneToMany(mappedBy = "flight",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Booking> bookings;
 
-    public Flight(Airport departureAirport, Airport arrivalAirport, LocalDateTime dateFlight, FlightStatus statusFlight, float price,int availableSeats, int totalSeats) {
+    public Flight(Airport departureAirport, Airport arrivalAirport, LocalDateTime dateFlight, FlightStatus statusFlight,
+            float price, int availableSeats, int totalSeats) {
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
         this.dateFlight = dateFlight;

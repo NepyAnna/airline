@@ -22,7 +22,7 @@ public class RegisterController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Map<String,String>> register(@RequestBody UserDto newUser) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody UserDto newUser) {
 
         Map<String, String> response = service.save(newUser);
 
