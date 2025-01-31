@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -17,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Entity
 @Table(name = "profiles")
@@ -30,7 +28,7 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_profile")
     private Long idProfile;
-    
+
     @Column(name = "email", length = 50)
     private String email;
 
@@ -40,13 +38,9 @@ public class Profile {
     @Column(name = "address", length = 50)
     private String address;
 
-    @Lob
-    @Column(name = "photo", columnDefinition = "BLOB")
-    private byte[] photo;
-    
     @Column(name = "photo_url")
     private String photoUrl;
-    
+
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id_user")
     @JsonBackReference
@@ -55,32 +49,21 @@ public class Profile {
     public Profile(String email, User user) {
         this.email = email;
         this.user = user;
-    } 
+    }
 
-    public Profile(String email, String phoneNumber, String address, byte[] photo, String photoUrl, User user) {
+    public Profile(String email, String phoneNumber, String address, String photoUrl, User user) {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.photo = photo;
         this.photoUrl = photoUrl;
         this.user = user;
     }
 
     @PrePersist
-public void setDefaultPhoto() {
-    if (this.photo == null && (this.photoUrl == null || this.photoUrl.isEmpty())) {
-        this.photoUrl = "https://postimg.cc/Y4hcfndB";
-    }
-}
-/* 
-    @PrePersist
     public void setDefaultPhoto() {
-        if (this.photo == null) {
-            try {
-                this.photo = Files.readAllBytes(ResourceUtils.getFile("classpath:static/default.jpg").toPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (this.photoUrl.isEmpty()) {
+            this.photoUrl = "https://postimg.cc/Y4hcfndB";
         }
-    }*/
+    }
+
 }

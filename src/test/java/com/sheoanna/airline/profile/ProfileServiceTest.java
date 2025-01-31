@@ -31,7 +31,7 @@ class ProfileServiceTest {
     @BeforeEach
     void setUp() {
         User user = new User(1L, "username", "password");
-        profile = new Profile("email@test.com", "123456789", "address", null, null, user);
+        profile = new Profile("email@test.com", "123456789", "address", null, user);
     }
 
     @Test

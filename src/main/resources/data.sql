@@ -22,8 +22,8 @@ INSERT INTO users (id_user, username, password) VALUES (default, 'Din', '$2a$12$
 INSERT INTO users (id_user, username, password) VALUES (default, 'Don', '$2a$12$qanYcTsH3oRXTOPPKW0m9.s.tqyepncgMEDQb9JygZDcq8.Qx1zkG');
 
 /* Profiles */
-INSERT INTO profiles (id_profile, email, phone_number, address, user_id, photo, photo_url) VALUES (default,'din@mail.com', '123456', 'Round street, Square city', 1, null, 'https://postimg.cc/Y4hcfndB');
-INSERT INTO profiles (id_profile, email, phone_number, address, user_id, photo, photo_url) VALUES (default,'don@mail.com', '123456', 'Round street, Square city', 2, null, 'https://postimg.cc/Y4hcfndB');
+INSERT INTO profiles (id_profile, email, phone_number, address, user_id, photo_url) VALUES (default,'din@mail.com', '123456', 'Round street, Square city', 1, 'https://postimg.cc/Y4hcfndB');
+INSERT INTO profiles (id_profile, email, phone_number, address, user_id, photo_url) VALUES (default,'don@mail.com', '123456', 'Round street, Square city', 2, 'https://postimg.cc/Y4hcfndB');
 
 
 /* Roles Users */

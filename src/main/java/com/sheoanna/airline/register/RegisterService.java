@@ -17,9 +17,9 @@ public class RegisterService {
 
     private final UserRepository userRepository;
     private final RoleService roleService;
-     private final IEncryptFacade encryptFacade;
+    private final IEncryptFacade encryptFacade;
 
-     public RegisterService(UserRepository userRepository, RoleService roleService, IEncryptFacade encryptFacade) {
+    public RegisterService(UserRepository userRepository, RoleService roleService, IEncryptFacade encryptFacade) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.encryptFacade = encryptFacade;
@@ -28,20 +28,12 @@ public class RegisterService {
     public Map<String, String> save(UserDto userData) {
 
         if (userRepository.findByUsername(userData.username()).isPresent()) {
-            throw new  UserAlreadyExistsException("User with email " + userData.username() + " already exists");
+            throw new UserAlreadyExistsException("User with email " + userData.username() + " already exists");
         }
 
-        String passwordDecoded = encryptFacade.decode("base64",userData.password());
-        /*Decoder decoder = Base64.getDecoder();
-        byte[] decodedBytes = decoder.decode(userData.password());
-        String passwordDecoded = new String(decodedBytes);*/
+        String passwordDecoded = encryptFacade.decode("base64", userData.password());
 
-       // System.out.println("<------------ " + passwordDecoded);
-        
         String passwordEncoded = encryptFacade.encode("bcrypt", passwordDecoded);
-        /* 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String passwordEncoded = encoder.encode(passwordDecoded);*/
 
         User newUser = new User(userData.username(), passwordEncoded);
         newUser.setRoles(roleService.assignDefaultRole());
