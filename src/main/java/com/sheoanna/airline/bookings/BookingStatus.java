@@ -1,5 +1,3 @@
 package com.sheoanna.airline.bookings;
 
-public enum BookingStatus {
-    CONFIRMED, PENDING
-}
+public enum BookingStatus {CONFIRMED, PENDING}

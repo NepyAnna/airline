@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sheoanna.airline.flights.Flight;
+import com.sheoanna.airline.flights.FlightDto;
 import com.sheoanna.airline.users.User;
+import com.sheoanna.airline.users.UserNameDto;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -50,4 +52,5 @@ public class Booking {
         this.dateBooking = dateBooking;
         this.bookedSeats =bookedSeats;
     }
+
 }
