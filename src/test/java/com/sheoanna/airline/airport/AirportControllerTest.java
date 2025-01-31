@@ -71,6 +71,15 @@ class AirportControllerTest {
     }
 
     @Test
+    void testGetAirportByCodeIata() throws Exception {
+        AirportDto airport = new AirportDto(1L, "JFK", "John F. Kennedy International Airport");
+        when(airportService.getByCodeIata("JFK")).thenReturn(airport);
+
+        mockMvc.perform(get("/api/v1/private/airports/code/codeIata"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void testControllerHasPathToPostCountry() throws Exception {
         AirportDto airport = new AirportDto(1L, "JFK", "John F. Kennedy International Airport");
 
@@ -86,7 +95,6 @@ class AirportControllerTest {
 
         assertThat(response.getStatus(), is(200));
         assertThat(response.getContentAsString(), is(json));
-
     }
 
     @Test

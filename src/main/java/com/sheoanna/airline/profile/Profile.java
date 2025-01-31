@@ -66,4 +66,8 @@ public class Profile {
         }
     }
 
+    public void updatePhoto(String newPhotoUrl) {
+        this.photoUrl = newPhotoUrl;
+    }
+
 }

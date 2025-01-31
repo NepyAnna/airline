@@ -50,6 +50,7 @@ public class ProfileService {
         Profile savedProfile = repository.save(profile);
 
         return new ProfileDto(savedProfile.getEmail(), savedProfile.getPhoneNumber(), savedProfile.getAddress(),
+                savedProfile.getPhotoUrl(),
                 new UserIdDto(savedProfile.getUser().getIdUser()));
     }
 
@@ -59,5 +60,17 @@ public class ProfileService {
                 .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
         repository.delete(profile);
     }
+
+    @Transactional
+    public ProfileDto uploadPhoto(Long id, String photoUrl) {
+        Profile profile = repository.findById(id)
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
+        profile.updatePhoto(photoUrl);
+        repository.save(profile);
+        return new ProfileDto(profile.getEmail(), profile.getPhoneNumber(), profile.getAddress(), profile.getPhotoUrl(),
+                new UserIdDto(profile.getUser().getIdUser()));
+    }
+
+    
 
 }

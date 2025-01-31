@@ -59,6 +59,21 @@ class BookingControllerTest {
     }
 
     @Test
+    void testShowByBookingId(){
+        Long id = 1L;
+        AirportDto departureAirport = new AirportDto(1L, "Departure Airport", "DPT");
+        AirportDto arrivalAirport = new AirportDto(2L, "Arrival Airport", "ARR");
+        FlightDto flight = new FlightDto(1L, departureAirport, arrivalAirport, LocalDateTime.now(),
+                FlightStatus.AVAILABLE, 200.0f, 100, 150);
+        BookingDto booking1 = new BookingDto(1L, new UserNameDto("john"), flight, LocalDateTime.now(), 2);
+
+        when(bookingService.getById(1L)).thenReturn(booking1);
+       ResponseEntity response = bookingController.showByBookingId(id);
+
+        assertNotNull(response);
+    }
+
+    @Test
     void testCreateBooking() {
         AirportDto departureAirport = new AirportDto(1L, "Departure Airport", "DPT");
         AirportDto arrivalAirport = new AirportDto(2L, "Arrival Airport", "ARR");

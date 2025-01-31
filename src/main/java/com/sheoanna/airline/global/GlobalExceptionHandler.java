@@ -23,9 +23,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AirportAlreadyExistsException.class)
-    public ResponseEntity<Map<String, String>> handleAIrportAlreadyExists(UserAlreadyExistsException ex) {
+    public ResponseEntity<Map<String, String>> handleAirportAlreadyExists(AirportAlreadyExistsException exception) {
         Map<String, String> response = new HashMap<>();
-        response.put("error", ex.getMessage());
+        response.put("error", exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
