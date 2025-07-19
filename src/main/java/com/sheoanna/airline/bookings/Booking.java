@@ -50,5 +50,4 @@ public class Booking {
         this.dateBooking = dateBooking;
         this.bookedSeats = bookedSeats;
     }
-
 }

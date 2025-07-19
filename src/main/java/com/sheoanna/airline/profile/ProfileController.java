@@ -56,5 +56,4 @@ public class ProfileController {
         response.put("photoUrl", updatedProfile.photoUrl());
         return ResponseEntity.ok(response);
     }
-
 }

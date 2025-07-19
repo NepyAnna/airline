@@ -58,7 +58,6 @@ class AirportControllerTest {
         assertThat(response.getStatus(), is(200));
         assertThat(response.getContentAsString(), containsString(first.getCodeIata()));
         assertThat(response.getContentAsString(), equalTo(mapper.writeValueAsString(airports)));
-
     }
 
     @Test
