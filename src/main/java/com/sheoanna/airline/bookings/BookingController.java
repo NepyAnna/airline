@@ -1,5 +1,6 @@
 package com.sheoanna.airline.bookings;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
@@ -14,14 +15,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("${api-endpoint}/bookings")
+@RequiredArgsConstructor
 public class BookingController {
-    private BookingService service;
+    private final BookingService service;
 
-    public BookingController(BookingService service) {
-        this.service = service;
-    }
-
-    @GetMapping("")
+   /* @GetMapping("")
     public List<BookingDto> index() {
         List<BookingDto> bookings = service.getAll();
         return bookings;
@@ -51,5 +49,5 @@ public class BookingController {
     public ResponseEntity<Void> deleteBookingById(@PathVariable Long id) {
         service.deleteBooking(id);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 }

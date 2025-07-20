@@ -1,5 +1,6 @@
 package com.sheoanna.airline.users;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
@@ -11,14 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("${api-endpoint}/users")
+@RequiredArgsConstructor
 public class UserController {
-    private UserService service;
+    private final UserService service;
 
-    public UserController(UserService service) {
-        this.service = service;
-    }
-
-    @GetMapping("")
+  /*  @GetMapping("")
     public List<User> index() {
         List<User> users = service.findAll();
         return users;
@@ -33,5 +31,5 @@ public class UserController {
     public ResponseEntity<Void> deleteBookingById(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 }

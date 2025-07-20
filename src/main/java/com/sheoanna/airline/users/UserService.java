@@ -2,6 +2,7 @@ package com.sheoanna.airline.users;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.sheoanna.airline.users.exceptions.UserNotFoundException;
@@ -9,14 +10,11 @@ import com.sheoanna.airline.users.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    private UserRepository repository;
+    private final UserRepository repository;
 
-    public UserService(UserRepository repository) {
-        this.repository = repository;
-    }
-
-    public List<User> findAll() {
+    /*public List<User> findAll() {
         return repository.findAll();
     }
 
@@ -32,4 +30,4 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         repository.delete(user);
     }
-}
+*/}

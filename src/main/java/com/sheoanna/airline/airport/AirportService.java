@@ -1,6 +1,8 @@
 package com.sheoanna.airline.airport;
 
 import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,13 +10,11 @@ import com.sheoanna.airline.airport.exceptions.AirportAlreadyExistsException;
 import com.sheoanna.airline.airport.exceptions.AirportNotFoundException;
 
 @Service
+@RequiredArgsConstructor
 public class AirportService {
-    private AirportRepository repository;
+private AirportRepository repository;
 
-    public AirportService(AirportRepository repository) {
-        this.repository = repository;
-    }
-
+/*
     public List<Airport> getAll() {
         List<Airport> airports = repository.findAll();
         return airports;
@@ -60,5 +60,5 @@ public class AirportService {
             throw new AirportNotFoundException("Airport with id " + id + " not found");
         }
         repository.deleteById(id);
-    }
+    }*/
 }

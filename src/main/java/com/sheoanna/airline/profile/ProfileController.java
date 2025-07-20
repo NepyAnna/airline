@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("${api-endpoint}/profiles")
+@RequiredArgsConstructor
 public class ProfileController {
     private final ProfileService service;
 
-    public ProfileController(ProfileService service) {
-        this.service = service;
-    }
-
-    @GetMapping("")
+   /* @GetMapping("")
     public List<Profile> index() {
         List<Profile> profiles = service.findAll();
         return profiles;
@@ -55,5 +53,5 @@ public class ProfileController {
         response.put("message", "Photo updated successfully");
         response.put("photoUrl", updatedProfile.photoUrl());
         return ResponseEntity.ok(response);
-    }
+    }*/
 }

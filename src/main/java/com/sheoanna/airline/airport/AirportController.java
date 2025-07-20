@@ -2,6 +2,7 @@ package com.sheoanna.airline.airport;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +15,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("${api-endpoint}/private/airports")
+@RequiredArgsConstructor
 public class AirportController {
-    private AirportService service;
+    private final AirportService service;
 
-    public AirportController(AirportService service) {
-        this.service = service;
-    }
-
+/*
     @GetMapping("")
     public ResponseEntity<List<Airport>> index() {
         List<Airport> airports = service.getAll();
@@ -56,5 +55,5 @@ public class AirportController {
     public ResponseEntity<Void> deleteAiportById(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 }
