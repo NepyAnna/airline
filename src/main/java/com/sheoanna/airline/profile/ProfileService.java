@@ -1,27 +1,17 @@
 package com.sheoanna.airline.profile;
 
-import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.sheoanna.airline.profile.exceptions.ProfileAlreadyExistsException;
-import com.sheoanna.airline.profile.exceptions.ProfileNotFoundException;
-import com.sheoanna.airline.users.User;
 
-import com.sheoanna.airline.users.UserIdDto;
 import com.sheoanna.airline.users.UserRepository;
-import com.sheoanna.airline.users.exceptions.UserNotFoundException;
-
-import jakarta.transaction.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ProfileService {
     private final ProfileRepository repository;
     private final UserRepository userRepository;
 
-    public ProfileService(ProfileRepository repository, UserRepository userRepository) {
-        this.repository = repository;
-        this.userRepository = userRepository;
-    }
+/*
 
     public List<Profile> findAll() {
         List<Profile> profiles = repository.findAll();
@@ -70,5 +60,6 @@ public class ProfileService {
         return new ProfileDto(profile.getEmail(), profile.getPhoneNumber(), profile.getAddress(), profile.getPhotoUrl(),
                 new UserIdDto(profile.getUser().getIdUser()));
     }
+*/
 
 }

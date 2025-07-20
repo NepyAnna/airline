@@ -2,25 +2,23 @@ package com.sheoanna.airline.flights;
 
 import java.util.List;
 
+import com.sheoanna.airline.airport.AirportService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sheoanna.airline.airport.Airport;
-import com.sheoanna.airline.airport.AirportDto;
 import com.sheoanna.airline.airport.AirportRepository;
 import com.sheoanna.airline.airport.exceptions.AirportNotFoundException;
 import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 
 @Service
+@RequiredArgsConstructor
 public class FlightService {
-        private FlightRepository repository;
-        private AirportRepository airportRepository;
+        private final FlightRepository repository;
+        private AirportService airportService;
 
-        public FlightService(FlightRepository repository) {
-                this.repository = repository;
-
-        }
-
+/*
         public List<FlightDto> getAll() {
                 List<Flight> flights = repository.findAll();
 
@@ -128,5 +126,5 @@ public class FlightService {
         private Airport findAirportById(Long id) {
                 return airportRepository.findById(id)
                                 .orElseThrow(() -> new AirportNotFoundException("Airport not found with id: " + id));
-        }
+        }*/
 }

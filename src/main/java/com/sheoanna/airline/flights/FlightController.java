@@ -2,6 +2,7 @@ package com.sheoanna.airline.flights;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +15,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("${api-endpoint}/private/flights")
+@RequiredArgsConstructor
 public class FlightController {
-    private FlightService service;
+    private final FlightService service;
 
-    public FlightController(FlightService service) {
-        this.service = service;
-    }
-
-    @GetMapping("")
+    /*@GetMapping("")
     public List<FlightDto> index() {
         List<FlightDto> flights = service.getAll();
         return flights;
@@ -49,6 +47,5 @@ public class FlightController {
     public ResponseEntity<Void> deleteFlightById(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
-
-    }
+    }*/
 }

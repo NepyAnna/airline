@@ -9,10 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.bookings.Booking;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "flights")
@@ -20,59 +17,40 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_flight")
-    private Long idFlight;
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_departure_airport", nullable = false)
-    @JsonBackReference
     private Airport departureAirport;
 
     @ManyToOne
     @JoinColumn(name = "id_arrival_airport", nullable = false)
-    @JsonBackReference
     private Airport arrivalAirport;
 
-    @Column(name = "date_flight", length = 50)
     private LocalDateTime dateFlight;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 50, nullable = false)
-    private FlightStatus statusFlight = FlightStatus.AVAILABLE;
+    private FlightStatus status = FlightStatus.AVAILABLE;
 
-    @Column(name = "price", length = 50)
     private float price;
 
-    @Column(name = "available_seats", nullable = false)
     private int availableSeats;
 
-    @Column(name = "total_seats", length = 10)
     private int totalSeats;
 
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<Booking> bookings;
-
-    public Flight(Airport departureAirport, Airport arrivalAirport, LocalDateTime dateFlight, FlightStatus statusFlight,
-            float price, int availableSeats, int totalSeats) {
-        this.departureAirport = departureAirport;
-        this.arrivalAirport = arrivalAirport;
-        this.dateFlight = dateFlight;
-        this.statusFlight = statusFlight;
-        this.price = price;
-        this.availableSeats = availableSeats;
-        this.totalSeats = totalSeats;
-        this.bookings = new HashSet<>();
-    }
+    private Set<Booking> bookings = new HashSet<>();
 
     public void updateStatusIfNeeded() {
         if (availableSeats == 0 || dateFlight.isBefore(LocalDateTime.now())) {
-            statusFlight = FlightStatus.UNAVAILABLE;
+            status = FlightStatus.UNAVAILABLE;
         } else {
-            statusFlight = FlightStatus.AVAILABLE;
+            status = FlightStatus.AVAILABLE;
         }
     }
 }

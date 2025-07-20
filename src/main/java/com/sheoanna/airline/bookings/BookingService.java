@@ -1,17 +1,17 @@
 package com.sheoanna.airline.bookings;
 
+import com.sheoanna.airline.flights.FlightService;
+import com.sheoanna.airline.users.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.sheoanna.airline.airport.AirportDto;
 import com.sheoanna.airline.bookings.exceptions.BookingException;
 import com.sheoanna.airline.bookings.exceptions.BookingNotFoundException;
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.flights.Flight;
-import com.sheoanna.airline.flights.FlightDto;
 import com.sheoanna.airline.flights.FlightRepository;
 import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 import com.sheoanna.airline.users.User;
-import com.sheoanna.airline.users.UserNameDto;
 import com.sheoanna.airline.users.UserRepository;
 import com.sheoanna.airline.users.exceptions.UserNotFoundException;
 
@@ -21,19 +21,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class BookingService {
     private final BookingRepository repository;
-    private final FlightRepository flightRepository;
-    private final UserRepository userRepository;
+    private final FlightService flightService;
+    private final UserService userService;
 
-    public BookingService(BookingRepository repository, FlightRepository flightRepository,
-            UserRepository userRepository) {
-        this.repository = repository;
-        this.flightRepository = flightRepository;
-        this.userRepository = userRepository;
-    }
-
-    public List<BookingDto> getAll() {
+    /*public List<BookingDto> getAll() {
         List<Booking> bookings = repository.findAll();
         return bookings.stream().map(booking -> new BookingDto(booking.getIdBooking(),
                 toUserDto(booking.getUser()),
@@ -179,5 +173,5 @@ public class BookingService {
                 flightToFlightDto(booking.getFlight()),
                 booking.getDateBooking(),
                 booking.getBookedSeats());
-    }
+    }*/
 }

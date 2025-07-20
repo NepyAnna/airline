@@ -1,6 +1,5 @@
 package com.sheoanna.airline.profile;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sheoanna.airline.users.User;
 
 import jakarta.persistence.Column;
@@ -12,10 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "profiles")
@@ -23,11 +19,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_profile")
-    private Long idProfile;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "email", length = 50)
     private String email;
@@ -42,32 +39,13 @@ public class Profile {
     private String photoUrl;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
-    @JsonBackReference
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-    public Profile(String email, User user) {
-        this.email = email;
-        this.user = user;
-    }
-
-    public Profile(String email, String phoneNumber, String address, String photoUrl, User user) {
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.photoUrl = photoUrl;
-        this.user = user;
-    }
 
     @PrePersist
     public void setDefaultPhoto() {
-        if (this.photoUrl.isEmpty()) {
+        if (this.photoUrl == null || this.photoUrl.isBlank()) {
             this.photoUrl = "https://postimg.cc/Y4hcfndB";
         }
     }
-
-    public void updatePhoto(String newPhotoUrl) {
-        this.photoUrl = newPhotoUrl;
-    }
-
 }
