@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @Mapping(source = "roles", target = "roles", qualifiedByName = "mapRolesToNames")
+/*    @Mapping(source = "roles", target = "roles", qualifiedByName = "mapRolesToNames")
     @Mapping(source = "profile", target = "profile")
     UserResponse toResponse(User user);
 
@@ -22,5 +22,5 @@ public interface UserMapper {
         return roles.stream()
                 .map(Role::getName)
                 .collect(Collectors.toSet());
-    }
+    }*/
 }

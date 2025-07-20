@@ -44,11 +44,4 @@ public class Profile {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-    @PrePersist
-    public void setDefaultPhoto() {
-        if (this.photoUrl == null || this.photoUrl.isBlank()) {
-            this.photoUrl = "https://postimg.cc/Y4hcfndB";
-        }
-    }
 }

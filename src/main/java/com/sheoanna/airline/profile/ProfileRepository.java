@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ProfileRepository extends JpaRepository<Profile, Long>{
+    Optional<Profile> findByUserId(Long id);
 }

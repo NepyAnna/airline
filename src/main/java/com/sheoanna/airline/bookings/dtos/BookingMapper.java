@@ -7,11 +7,11 @@ import javax.swing.text.html.parser.Entity;
 
 @Mapper(componentModel = "spring")
 public interface BookingMapper {
-    @Mapping(source = "user.username", target = "username")
+/*    @Mapping(source = "user.username", target = "username")
     @Mapping(source = "flight.departureAirport.codeIata", target = "flightCode")
     BookingResponse toResponse(Booking booking);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", constant = "PENDING")
-    Booking toEntity(BookingRequest request);
+    Booking toEntity(BookingRequest request);*/
 }
