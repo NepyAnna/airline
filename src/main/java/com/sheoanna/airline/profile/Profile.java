@@ -38,6 +38,9 @@ public class Profile {
     @Column(name = "photo_url")
     private String photoUrl;
 
+    @Column(name = "photo_public_id")
+    private String photoPublicId;
+
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
