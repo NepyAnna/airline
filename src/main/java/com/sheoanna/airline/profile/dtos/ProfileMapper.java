@@ -6,7 +6,14 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ProfileMapper {
+    //@Mapping(target = "userId", expression = "java(profile.getUser() != null ? profile.getUser().getId() : null)")
     @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "phoneNumber", target = "phoneNumber")
+    @Mapping(source = "address", target = "address")
+    @Mapping(source = "photoUrl", target = "photoUrl")
     ProfileResponse toResponse(Profile profile);
+
     Profile toEntity(ProfileRequest request);
 }

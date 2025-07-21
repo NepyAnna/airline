@@ -28,12 +28,21 @@ public class CloudinaryService {
                     result.get("secure_url").toString(),
                     result.get("public_id").toString()
             );
-
         } catch (IOException | RuntimeException e) {
-            return new UploadResult(
-                    defaultProfileImageUrl,
-                    null
-            );
+            throw new RuntimeException("Failed to upload image to Cloudinary", e);
         }
+    }
+
+    public boolean delete(String publicId) {
+        try {
+            Map<?, ?> result = cloudinary.uploader().destroy(publicId, Map.of());
+            return "ok".equals(result.get("result"));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to delete image from Cloudinary", e);
+        }
+    }
+
+    public UploadResult uploadDefault(String folder) {
+        return new UploadResult(defaultProfileImageUrl, null);
     }
 }

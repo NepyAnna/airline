@@ -3,6 +3,8 @@ package com.sheoanna.airline.register;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sheoanna.airline.users.dtos.UserRequest;
+import com.sheoanna.airline.users.dtos.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ public class RegisterService {
     private final RoleService roleService;
     private final IEncryptFacade encryptFacade;
 
-  /*  public Map<String, String> save(UserDto userData) {
+    public Map<String, String> save(UserRequest userData) {
 
         if (userRepository.findByUsername(userData.username()).isPresent()) {
             throw new UserAlreadyExistsException("User with email " + userData.username() + " already exists");
@@ -29,7 +31,11 @@ public class RegisterService {
 
         String passwordEncoded = encryptFacade.encode("bcrypt", passwordDecoded);
 
-        User newUser = new User(userData.username(), passwordEncoded);
+        User newUser = User.builder()
+                .username(userData.username())
+                .password(passwordEncoded)
+                .build();
+
         newUser.setRoles(roleService.assignDefaultRole());
 
         userRepository.save(newUser);
@@ -38,5 +44,5 @@ public class RegisterService {
         response.put("message", "Success");
 
         return response;
-    }*/
+    }
 }

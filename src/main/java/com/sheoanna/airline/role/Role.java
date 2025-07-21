@@ -6,7 +6,10 @@ import com.sheoanna.airline.users.User;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+
 @Data
+@Getter
 @Entity
 @Table(name = "roles")
 public class Role {
