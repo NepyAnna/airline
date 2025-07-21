@@ -3,12 +3,11 @@ The project aims to develop a management system for an airline using Spring with
 
 ## Some features
 
-- User — Profile Relationship
+### User — Profile Relationship
 Type of relationship:
 One-to-One, bidirectional:
 User is the "owner" of the profile (manages the lifecycle of the Profile).
 The Profile exists only as an extension of the user's data.
-
 
 #### Implementation details:
 User manages the creation, update, and deletion of the profile (cascade = CascadeType.ALL).
@@ -38,12 +37,12 @@ private Profile profile;
 private User user;
 ```
 
-## ✅Installation Steps
+## Installation Steps
 ```bash
 git clone https://github.com/NepyAnna/airline.git
 cd airline
 ```
-## Run
+### Run
 
 ```bash
 ./mvnw spring-boot:run
@@ -57,60 +56,57 @@ If you are using an IDE such as IntelliJ IDEA,VS Code etc, you can simply click 
 For example, in IntelliJ IDEA, right-click the main class and choose "Run 'AirlineApplication...main()'".
 
 
-## ✅API Endpoints
+## API Endpoints
+
+### Registration / Login / Logout
 - POST http://localhost:8080/api/v1/registar registration of users.
 - POST http://localhost:8080/api/v1/login login for users.
      http://localhost:8080/api/v1/login logout.
 
-- GET http://localhost:8080/api/v1/private/airports  to get list with all airports.
-- GET http://localhost:8080/api/v1/private/airports/{id} to get airport by ID.
-- GET http://localhost:8080/api/v1/private/airports/{codeIata} to get airport by code IATA.
-- POST http://localhost:8080/api/v1/private/airports  to add new airport.
-- PUT http://localhost:8080/api/v1/private/airports/{id} to update airport data.
-- DELETE http://localhost:8080/api/v1/private/airports to delete airport.
-
-
-- GET http://localhost:8080/api/v1/private/flights to get list with all flihgts.
-- GET http://localhost:8080/api/v1/private/flights/{id} to get flights by ID.
-- POST http://localhost:8080/api/v1/private/flights to add new flight.
-- PUT http://localhost:8080/api/v1/private/flights/{id} to update flights data.
-- DELETE http://localhost:8080/api/v1/private/flights to delete flight.
-
-- GET http://localhost:8080/api/v1/bookings to get list with all bookings.
-- GET http://localhost:8080/api/v1/bookings/{id} to get booking by ID.
-- POST http://localhost:8080/api/v1/bookings to add new booking.
-- PUT http://localhost:8080/api/v1/bookings/{id} to update booking data.
-- DELETE http://localhost:8080/api/v1/bookings to delete booking by ID.
-
-
-- GET http://localhost:8080/api/v1/users  to get list with all.
-- GET http://localhost:8080/api/v1/users/{id} to get user by ID.
-- PUT http://localhost:8080/api/v1/users/{id} to update user data.
-- DELETE http://localhost:8080/api/v1/users to delete  to delete user.
-
-
-- GET http://localhost:8080/api/v1/profiles  to get list with all profiles.
-- GET http://localhost:8080/api/v1/profiles/{id}  to get profile by id.
-- POST http://localhost:8080/api/v1/profiles  to add new profile.
+### Airports
+- GET http://localhost:8080/api/v1/private/airports  to get list with all airports(Access: Available to all authenticated users).
+- GET http://localhost:8080/api/v1/private/airports/{id} to get airport by ID(Access: Available to all authenticated users).
+- GET http://localhost:8080/api/v1/private/airports/{codeIata} to get airport by code IATA(Access: Available to all authenticated users).
+- POST http://localhost:8080/api/v1/private/airports  to add new airport(Only available to users with the ADMIN role).
+- PUT http://localhost:8080/api/v1/private/airports/{id} to update airport data(Only available to users with the ADMIN role).
+- DELETE http://localhost:8080/api/v1/private/airports to delete airport(Only available to users with the ADMIN role).
+### Flights
+- GET http://localhost:8080/api/v1/private/flights to get list with all flihgts(Access: Available to all authenticated users).
+- GET http://localhost:8080/api/v1/private/flights/{id} to get flights by ID(Access: Available to all authenticated users).
+- POST http://localhost:8080/api/v1/private/flights to add new flight(Only available to users with the ADMIN role).
+- PUT http://localhost:8080/api/v1/private/flights/{id} to update flights data(Only available to users with the ADMIN role).
+- DELETE http://localhost:8080/api/v1/private/flights to delete flight(Only available to users with the ADMIN role).
+### Bookings
+- GET http://localhost:8080/api/v1/bookings to get list with all bookings(Only available to users with the USER role).
+- GET http://localhost:8080/api/v1/bookings/{id} to get booking by ID(Only available to users with the USER role).
+- POST http://localhost:8080/api/v1/bookings to add new booking(Only available to users with the USER role).
+- PUT http://localhost:8080/api/v1/bookings/{id} to update booking data(Only available to users with the USER role).
+- DELETE http://localhost:8080/api/v1/bookings to delete booking by ID(Only available to users with the USER role).
+### Users
+- GET http://localhost:8080/api/v1/users  to get list with all(Only available to users with the ADMIN role).
+- GET http://localhost:8080/api/v1/users/{id} to get user by ID(Only available to users with the USER and ADMIN role).
+- PUT http://localhost:8080/api/v1/users/{id} to update user data(Only available to users with the USER role).
+- DELETE http://localhost:8080/api/v1/users to delete  to delete user(Only available to users with the USER and ADMIN role).
+### Profiles
+- GET http://localhost:8080/api/v1/profiles  to get list with all profiles(Only available to users with the ADMIN role).
+- GET http://localhost:8080/api/v1/profiles/{id}  to get profile by id(Only available to users with the USER and ADMIN role).
+- POST http://localhost:8080/api/v1/profiles  to add new profile(Only available to users with the USER and ADMIN role).
+- PUT http://localhost:8080/api/v1/profiles/{id} to update profile(Only available to users with the USER and ADMIN role).
 - Delete http://localhost:8080/api/v1/profiles/{id} to delete profile by id.
 
-- GET http://localhost:8080/api/v1/users to grt all users.
-- GET http://localhost:8080/api/v1/profiles/{id}  to get user by id.
-- DELETE http://localhost:8080/api/v1/profiles/{id}  to delete user by id.
-
-## ✅Running Tests
+## Running Tests
 - Run the tests to validate the code functionality and observe test coverage.
 - The project ensures more than 70% coverage across all methods.
 
 [![temp-Image8-Z32s6.avif](https://i.postimg.cc/y8FMr2cp/temp-Image8-Z32s6.avif)](https://postimg.cc/G4mg47Mv)
 
-## ✅ER Diagram(Crow's feet)
+## ER Diagram(Crow's feet)
 [![temp-Image-WLvm4-U.avif](https://i.postimg.cc/gjG073B1/temp-Image-WLvm4-U.avif)](https://postimg.cc/ftgZtSsv)
 
-## ✅ClassDiagram
+## ClassDiagram
 [![temp-Image-K8-Rn-U3.avif](https://i.postimg.cc/htrCmn9n/temp-Image-K8-Rn-U3.avif)](https://postimg.cc/Wdd6RQWY)
 
-## ✅Technology Stack
+## Technology Stack
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
@@ -123,7 +119,7 @@ For example, in IntelliJ IDEA, right-click the main class and choose "Run 'Airli
 ![Swagger](https://img.shields.io/badge/swagger-%2385EA2D.svg?style=for-the-badge&logo=swagger&logoColor=black)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-## ✅Contributors
+## Contributors
 Anna Nepyivoda
      <a href="https://github.com/NepyAnna">
           <picture>
@@ -133,7 +129,7 @@ Anna Nepyivoda
           </picture>
      </a>
 
-## ✅Disclaimer
+## Disclaimer
 This project is developed as part of a bootcamp learning experience and is intended for educational purposes only. The creators and contributors are not responsible for any issues, damages, or losses that may occur from using this code.
 This project is not meant for commercial use, and any trademarks or references to third-party services (such as Funko) belong to their respective owners. By using this code, you acknowledge that it is a work in progress, created by learners, and comes without warranties or guarantees of any kind.
 
