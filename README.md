@@ -1,6 +1,43 @@
 # Airline
 The project aims to develop a management system for an airline using Spring with Spring Boot and Spring Security. This system will allow the comprehensive management of users, flights, reservations and destinations, with advanced features such as secure authentication using Basic Auth. The system cannot allow the selection of flights without available seats or that have passed the deadline. The project will be implemented using Java 21, Maven and MySQL or PostgreSQL.
 
+## Some features
+
+- User — Profile Relationship
+Type of relationship:
+One-to-One, bidirectional:
+User is the "owner" of the profile (manages the lifecycle of the Profile).
+The Profile exists only as an extension of the user's data.
+
+
+#### Implementation details:
+User manages the creation, update, and deletion of the profile (cascade = CascadeType.ALL).
+
+Profile cannot exist without a User, but a User can exist without a fully completed Profile.
+
+After a user is created, the profile is created separately (not automatically in the backend, but by client logic).
+
+#### Business logic:
+The profile is not created automatically in the registration service.
+Responsibility for creating the Profile lies with the frontend.
+After registering a user, the frontend must send a POST request to /api/profile.
+
+#### Advantages of this approach:
+Flexibility: the profile can be created/updated separately after registration.
+Clean separation of responsibilities between modules: UserService does not depend on ProfileRepository.
+Convenient for implementing multi-step registration or a separate profile settings form.
+```java
+// User.java
+@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+private Profile profile;
+
+// Profile.java
+@OneToOne
+@JoinColumn(name = "user_id", referencedColumnName = "id")
+@JsonIgnore
+private User user;
+```
+
 ## ✅Installation Steps
 ```bash
 git clone https://github.com/NepyAnna/airline.git

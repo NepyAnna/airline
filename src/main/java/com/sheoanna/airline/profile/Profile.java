@@ -1,5 +1,6 @@
 package com.sheoanna.airline.profile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sheoanna.airline.users.User;
 
 import jakarta.persistence.Column;
@@ -43,5 +44,6 @@ public class Profile {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private User user;
 }

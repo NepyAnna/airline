@@ -42,21 +42,15 @@ public class ProfileController {
     public ResponseEntity<ProfileResponse> createProfile(@ModelAttribute ProfileRequest request) {
         return ResponseEntity.ok(profileService.store(request));
     }
-   /*
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProfileResponse> updateProfile(@ModelAttribute ProfileRequest request) {
+        return ResponseEntity.ok(profileService.update(request));
     }
 
-    @PatchMapping("/{id}/photo")
-    public ResponseEntity<Map<String, String>> uploadPhoto(@PathVariable Long id,
-            @RequestParam("photoUrl") String photoUrl) {
-        ProfileDto updatedProfile = service.uploadPhoto(id, photoUrl);
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Photo updated successfully");
-        response.put("photoUrl", updatedProfile.photoUrl());
-        return ResponseEntity.ok(response);
-    }*/
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProfileById(@PathVariable Long id) {
+        profileService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
