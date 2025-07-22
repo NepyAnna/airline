@@ -1,17 +1,27 @@
 package com.sheoanna.airline.bookings.dtos;
+
 import com.sheoanna.airline.bookings.Booking;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-import javax.swing.text.html.parser.Entity;
+@Component
+public class BookingMapper {
 
-@Mapper(componentModel = "spring")
-public interface BookingMapper {
-/*    @Mapping(source = "user.username", target = "username")
-    @Mapping(source = "flight.departureAirport.codeIata", target = "flightCode")
-    BookingResponse toResponse(Booking booking);
+    public BookingResponse toResponse(Booking booking) {
+        return new BookingResponse(
+                booking.getId(),
+                booking.getUser().getUsername(),
+                booking.getFlight().getDepartureAirport().getCodeIata(),
+                booking.getFlight().getArrivalAirport().getCodeIata(),
+                booking.getFlight().getDateFlight(),
+                booking.getDateBooking(),
+                booking.getBookedSeats(),
+                booking.getStatus()
+        );
+    }
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "status", constant = "PENDING")
-    Booking toEntity(BookingRequest request);*/
+    public Booking toEntity(BookingRequest request) {
+        return Booking.builder()
+                .bookedSeats(request.bookedSeats())
+                .build();
+    }
 }

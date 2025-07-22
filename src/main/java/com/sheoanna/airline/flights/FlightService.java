@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Isolation;
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class FlightService {
@@ -75,5 +77,16 @@ public class FlightService {
             throw new FlightNotFoundException("Flight with id " + id + " not found");
         }
         flightRepository.deleteById(id);
+    }
+
+    public Flight findFlightByParameters(String departureCodeIata,
+                                         String arivalCodeIata,
+                                         LocalDateTime flightTime,
+                                         int seats) {
+        return flightRepository.findFlightByParameters(departureCodeIata,
+                        arivalCodeIata,
+                        flightTime,
+                        seats)
+                .orElseThrow(() -> new FlightNotFoundException("Flight not found with the specified parameters"));
     }
 }
