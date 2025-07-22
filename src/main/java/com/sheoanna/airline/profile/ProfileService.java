@@ -11,7 +11,8 @@ import com.sheoanna.airline.profile.exceptions.ProfileAlreadyExistsException;
 import com.sheoanna.airline.profile.exceptions.ProfileNotFoundException;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserService;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,8 +44,7 @@ public class ProfileService {
         return profileMapper.toResponse(profile);
     }
 
-
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public ProfileResponse store(ProfileRequest newProfileData) {
         User user = userService.getAuthenticatedUser();
 
@@ -62,7 +62,7 @@ public class ProfileService {
         return profileMapper.toResponse(profile);
     }
 
-    @Transactional
+    @Transactional//(isolation = Isolation.READ_COMMITTED)
     public ProfileResponse update(ProfileRequest newProfileData) {
         User user = userService.getAuthenticatedUser();
         Profile profile = profileRepository.findByUserId(user.getId())
@@ -84,7 +84,6 @@ public class ProfileService {
         profileRepository.save(profile);
         return profileMapper.toResponse(profile);
     }
-
 
     @Transactional
     public void deleteById(Long id) {

@@ -1,21 +1,15 @@
 package com.sheoanna.airline.profile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.sheoanna.airline.profile.dtos.ProfileRequest;
 import com.sheoanna.airline.profile.dtos.ProfileResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("${api-endpoint}/profiles")
@@ -24,7 +18,7 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping("")
-    public Page<ProfileResponse> getProfiles(
+    public Page<ProfileResponse> showAllProfiles(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "4") int size/*,
             @RequestParam(defaultValue = "id") String sortBy*/
@@ -40,7 +34,8 @@ public class ProfileController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProfileResponse> createProfile(@ModelAttribute ProfileRequest request) {
-        return ResponseEntity.ok(profileService.store(request));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(profileService.store(request));
     }
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

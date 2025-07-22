@@ -50,7 +50,7 @@ public class BookingService {
         return bookingDto;
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public BookingDto createBooking(BookingDto bookingDto) {
         Flight flight = flightRepository.findFlightByParameters(
                 bookingDto.flight().departureAirport().idAirport(),
@@ -82,7 +82,7 @@ public class BookingService {
         return bookingToBookingDto(savedBooking);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public BookingDto updateBooking(Long id, BookingDto bookingDto) {
         Booking existingBooking = repository.findById(id)
                 .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));

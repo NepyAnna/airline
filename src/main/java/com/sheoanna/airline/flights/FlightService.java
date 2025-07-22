@@ -6,6 +6,7 @@ import com.sheoanna.airline.airport.AirportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.airport.AirportRepository;
@@ -51,7 +52,7 @@ public class FlightService {
                 return flightDto;
         }
 
-        @Transactional
+        @Transactional(isolation = Isolation.REPEATABLE_READ) ///READ_COMMITTED or REPEATABLE_READ
         public FlightDto store(FlightDto newFlightData) {
                 Airport departureAirport = findAirportById(newFlightData.departureAirport().idAirport());
                 Airport arrivalAirport = findAirportById(newFlightData.arrivalAirport().idAirport());
@@ -79,7 +80,7 @@ public class FlightService {
                                 savedFlight.getTotalSeats());
         }
 
-        @Transactional
+        @Transactional(isolation = Isolation.READ_COMMITTED)
         public FlightDto updateFlight(Long id, FlightDto flightDtoUpdateData) {
                 Flight existingFlight = repository.findById(id)
                                 .orElseThrow(() -> new FlightNotFoundException("Flight with id " + id + " not found"));

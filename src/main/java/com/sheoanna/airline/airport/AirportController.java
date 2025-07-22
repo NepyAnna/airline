@@ -1,59 +1,56 @@
 package com.sheoanna.airline.airport;
 
-import java.util.List;
-
+import com.sheoanna.airline.airport.dtos.AirportRequest;
+import com.sheoanna.airline.airport.dtos.AirportResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("${api-endpoint}/private/airports")
 @RequiredArgsConstructor
 public class AirportController {
-    private final AirportService service;
+    private final AirportService airportService;
 
-/*
     @GetMapping("")
-    public ResponseEntity<List<Airport>> index() {
-        List<Airport> airports = service.getAll();
-        return ResponseEntity.ok(airports);
+    public Page<AirportResponse> showAllAiroports(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "4") int size/*,
+            @RequestParam(defaultValue = "id") String sortBy*/
+    ) {
+        Pageable pageable = PageRequest.of(page, size/*, Sort.by(sortBy)*/);
+        return airportService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AirportDto> show(@PathVariable Long id) {
-        AirportDto airport = service.getById(id);
-        return ResponseEntity.ok(airport);
+    public ResponseEntity<AirportResponse> showById(@PathVariable Long id) {
+        return ResponseEntity.ok(airportService.findById(id));
     }
 
     @GetMapping("/code/{codeIata}")
-    public ResponseEntity<AirportDto> showByIata(@PathVariable String codeIata) {
-        AirportDto airportDto = service.getByCodeIata(codeIata);
-        return ResponseEntity.ok(airportDto);
+    public ResponseEntity<AirportResponse> showByIata(@PathVariable String codeIata) {
+        return ResponseEntity.ok(airportService.findByCodeIata(codeIata));
     }
 
     @PostMapping("")
-    public ResponseEntity<AirportDto> create(@RequestBody AirportDto newAirportDtoData) {
-        AirportDto createdAirportDto = service.store(newAirportDtoData);
-        return ResponseEntity.ok(createdAirportDto);
+    public ResponseEntity<AirportResponse> create(@RequestBody AirportRequest newAirportDtoData) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(airportService.store(newAirportDtoData));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AirportDto> putAirportById(@PathVariable Long id,
-            @RequestBody AirportDto airportDtoUpdateData) {
-        AirportDto updatedAirportDto = service.updateAirportData(id, airportDtoUpdateData);
-        return ResponseEntity.ok(updatedAirportDto);
+    public ResponseEntity<AirportResponse> updateAirportById(@PathVariable Long id,
+                                                             @RequestBody AirportRequest airportUpdateData) {
+        return ResponseEntity.ok(airportService.updateAirportData(id, airportUpdateData));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAiportById(@PathVariable Long id) {
-        service.deleteById(id);
+        airportService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }*/
+    }
 }
