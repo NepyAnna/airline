@@ -55,6 +55,51 @@ Alternative Way to Run the Application
 If you are using an IDE such as IntelliJ IDEA,VS Code etc, you can simply click the “Run” button or run the main application class directly (the one annotated with @SpringBootApplication).
 For example, in IntelliJ IDEA, right-click the main class and choose "Run 'AirlineApplication...main()'".
 
+### IntelliJ, Lombok and MapStruct: Important Note
+If you are working in IntelliJ IDEA, please pay attention to the following configuration instructions, as you might encounter compilation issues — especially related to MapStruct and Lombok.
+#### Problem:
+When using Lombok (e.g. @Getter, @Setter, @Builder) together with MapStruct, IntelliJ may not recognize the generated getters/setters and other methods during compilation. As a result, IntelliJ may:
+Show errors in @Mapper interfaces
+Prevent project compilation (even though mvn compile works fine in the terminal)
+Fail to suggest methods or fields in code completion
+
+#### Solution:
+##### Enable Lombok support:
+Install the Lombok plugin in IntelliJ IDEA:
+Settings → Plugins → Marketplace → Lombok → Install
+
+##### Enable annotation processing:
+Settings → Build, Execution, Deployment → Compiler → Annotation Processors
+Make sure "Enable annotation processing" is checked.
+Try checked off and then checked on again.
+
+##### Enable MapStruct support:
+In the same Annotation Processors menu, ensure that
+"Obtain processors from project classpath" is selected.
+Add the following MapStruct dependencies to your pom.xml:
+
+```xml
+<dependencies>
+     <dependency>
+          <groupId>org.mapstruct</groupId>
+          <artifactId>mapstruct</artifactId>
+          <version>1.5.5.Final</version>// check if actual
+     </dependency>
+     <dependency>
+          <groupId>org.mapstruct</groupId>
+          <artifactId>mapstruct-processor</artifactId>
+          <version>1.5.5.Final</version>// check if actual
+          <scope>provided</scope>
+     </dependency>
+</dependencies>
+```
+##### Additional recommendations:
+
+If IntelliJ still doesn't recognize generated methods, try:
+File → Invalidate Caches / Restart…
+
+You can also force a full rebuild via:
+Build → Rebuild Project
 
 ## API Endpoints
 
@@ -100,8 +145,8 @@ For example, in IntelliJ IDEA, right-click the main class and choose "Run 'Airli
 
 [![temp-Image8-Z32s6.avif](https://i.postimg.cc/y8FMr2cp/temp-Image8-Z32s6.avif)](https://postimg.cc/G4mg47Mv)
 
-## ER Diagram(Crow's feet)
-[![temp-Image-WLvm4-U.avif](https://i.postimg.cc/gjG073B1/temp-Image-WLvm4-U.avif)](https://postimg.cc/ftgZtSsv)
+## ERR Diagram
+[![temp-Image-UR4-NJP.avif](https://i.postimg.cc/Hkyv3TPZ/temp-Image-UR4-NJP.avif)](https://postimg.cc/21CxSNYh)
 
 ## ClassDiagram
 [![temp-Image-K8-Rn-U3.avif](https://i.postimg.cc/htrCmn9n/temp-Image-K8-Rn-U3.avif)](https://postimg.cc/Wdd6RQWY)

@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sheoanna.airline.users.dtos.UserRequest;
-import com.sheoanna.airline.users.dtos.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 import com.sheoanna.airline.encryptions.IEncryptFacade;
 import com.sheoanna.airline.role.RoleService;
 import com.sheoanna.airline.users.User;
@@ -21,6 +21,7 @@ public class RegisterService {
     private final RoleService roleService;
     private final IEncryptFacade encryptFacade;
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, String> save(UserRequest userData) {
 
         if (userRepository.findByUsername(userData.username()).isPresent()) {
