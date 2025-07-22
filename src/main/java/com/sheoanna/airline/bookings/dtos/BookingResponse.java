@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 public record BookingResponse(
         Long id,
         String username,
-        String flightCode,
+        String departureCodeIata,
+        String arrivalCodeIata,
+        LocalDateTime dateFlight,
         LocalDateTime dateBooking,
         int bookedSeats,
         BookingStatus status

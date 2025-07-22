@@ -11,8 +11,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "bookings")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
