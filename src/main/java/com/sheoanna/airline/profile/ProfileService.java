@@ -62,7 +62,7 @@ public class ProfileService {
         return profileMapper.toResponse(profile);
     }
 
-    @Transactional//(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public ProfileResponse update(ProfileRequest newProfileData) {
         User user = userService.getAuthenticatedUser();
         Profile profile = profileRepository.findByUserId(user.getId())

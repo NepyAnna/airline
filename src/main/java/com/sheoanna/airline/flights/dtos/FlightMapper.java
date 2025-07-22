@@ -6,13 +6,13 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface FlightMapper {
-/*    @Mapping(source = "departureAirport.codeIata", target = "departureAirportIata")
-    @Mapping(source = "arrivalAirport.codeIata", target = "arrivalAirportIata")
+    @Mapping(target = "departureAirportCode", source = "departureAirport.codeIata")
+    @Mapping(target = "arrivalAirportCode", source = "arrivalAirport.codeIata")
     FlightResponse toResponse(Flight flight);
 
+    @Mapping(target = "departureAirport", ignore = true)
+    @Mapping(target = "arrivalAirport", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "status", constant = "AVAILABLE")
-    @Mapping(target = "availableSeats", source = "totalSeats")
     @Mapping(target = "bookings", ignore = true)
-    Flight toEntity(FlightRequest request);*/
+    Flight toEntity(FlightRequest request);
 }

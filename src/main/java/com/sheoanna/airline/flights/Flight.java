@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sheoanna.airline.airport.Airport;
 import com.sheoanna.airline.bookings.Booking;
 import jakarta.persistence.*;
@@ -37,7 +35,7 @@ public class Flight {
     @Enumerated(EnumType.STRING)
     private FlightStatus status = FlightStatus.AVAILABLE;
 
-    private float price;
+    private double price;
 
     private int availableSeats;
 
