@@ -11,8 +11,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "flights")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
