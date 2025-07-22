@@ -9,8 +9,8 @@ public record FlightResponse(
         String departureAirportCode,
         String arrivalAirportCode,
         LocalDateTime dateFlight,
+        double price,
         FlightStatus status,
-        float price,
         int availableSeats,
         int totalSeats
 ) {}

@@ -71,4 +71,9 @@ public class AirportService {
         }
         airportRepository.deleteById(id);
     }
+
+    public Airport findObjByCodeIata(String code) {
+        return airportRepository.findByCodeIata(code)
+                .orElseThrow(() -> new AirportNotFoundException("Airport not found with code IATA " + code));
+    }
 }
