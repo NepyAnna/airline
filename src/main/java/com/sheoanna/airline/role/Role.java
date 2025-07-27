@@ -6,13 +6,16 @@ import com.sheoanna.airline.users.User;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+
 @Data
+@Getter
 @Entity
 @Table(name = "roles")
 public class Role {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_role")
+    @Column(name = "id")
     private Long id;
     private String name;
     

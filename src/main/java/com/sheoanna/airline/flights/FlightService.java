@@ -1,132 +1,92 @@
 package com.sheoanna.airline.flights;
 
-import java.util.List;
-
+import com.sheoanna.airline.airport.AirportService;
+import com.sheoanna.airline.flights.dtos.FlightMapper;
+import com.sheoanna.airline.flights.dtos.FlightRequest;
+import com.sheoanna.airline.flights.dtos.FlightResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 
 import com.sheoanna.airline.airport.Airport;
-import com.sheoanna.airline.airport.AirportDto;
-import com.sheoanna.airline.airport.AirportRepository;
-import com.sheoanna.airline.airport.exceptions.AirportNotFoundException;
 import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 
+import java.time.LocalDateTime;
+
 @Service
+@RequiredArgsConstructor
 public class FlightService {
-        private FlightRepository repository;
-        private AirportRepository airportRepository;
+    private final FlightRepository flightRepository;
+    private final AirportService airportService;
+    private final FlightMapper flightMapper;
 
-        public FlightService(FlightRepository repository) {
-                this.repository = repository;
+    public Page<FlightResponse> findAllFlights(Pageable pageable) {
+        return flightRepository.findAll(pageable)
+                .map(flightMapper::toResponse);
+    }
 
+    public FlightResponse findFlightById(Long id) {
+        Flight flight = flightRepository.findById(id)
+                .orElseThrow(() -> new FlightNotFoundException("Airport not found with id: " + id));
+        return flightMapper.toResponse(flight);
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public FlightResponse storeFlight(FlightRequest newFlightData) {
+        Airport departureAirport = airportService.findObjByCodeIata(newFlightData.departureAirportIata());
+        Airport arrivalAirport = airportService.findObjByCodeIata(newFlightData.arrivalAirportIata());
+
+        Flight newFlight = flightMapper.toEntity(newFlightData);
+        newFlight.setDepartureAirport(departureAirport);
+        newFlight.setArrivalAirport(arrivalAirport);
+
+        newFlight.updateStatusIfNeeded();
+        Flight savedFlight = flightRepository.save(newFlight);
+
+        return flightMapper.toResponse(savedFlight);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public FlightResponse updateFlight(Long id, FlightRequest flightUpdateData) {
+        Flight existingFlight = flightRepository.findById(id)
+                .orElseThrow(() -> new FlightNotFoundException("Flight with id " + id + " not found"));
+
+        Airport departureAirport = airportService.findObjByCodeIata(flightUpdateData.departureAirportIata());
+        Airport arrivalAirport = airportService.findObjByCodeIata(flightUpdateData.arrivalAirportIata());
+
+        existingFlight.setDepartureAirport(departureAirport);
+        existingFlight.setArrivalAirport(arrivalAirport);
+        existingFlight.setDateFlight(flightUpdateData.dateFlight());
+        existingFlight.setPrice(flightUpdateData.price());
+        existingFlight.setStatus(flightUpdateData.status());
+        existingFlight.setAvailableSeats(flightUpdateData.availableSeats());
+        existingFlight.setTotalSeats(flightUpdateData.totalSeats());
+
+        existingFlight.updateStatusIfNeeded();
+
+        //Flight savedFlight = repository.save(existingFlight);// Transactional will save
+
+        return flightMapper.toResponse(existingFlight);
+    }
+
+    public void deleteFlightById(Long id) {
+        if (!flightRepository.existsById(id)) {
+            throw new FlightNotFoundException("Flight with id " + id + " not found");
         }
+        flightRepository.deleteById(id);
+    }
 
-        public List<FlightDto> getAll() {
-                List<Flight> flights = repository.findAll();
-
-                return flights.stream()
-                                .map(flight -> new FlightDto(
-                                                flight.getIdFlight(),
-                                                airportToAirportDto(flight.getDepartureAirport()),
-                                                airportToAirportDto(flight.getArrivalAirport()),
-                                                flight.getDateFlight(),
-                                                flight.getStatusFlight(),
-                                                flight.getPrice(),
-                                                flight.getAvailableSeats(),
-                                                flight.getTotalSeats()))
-                                .toList();
-        }
-
-        public FlightDto getById(Long id) {
-                Flight flight = repository.findById(id)
-                                .orElseThrow(() -> new FlightNotFoundException("Airport not found with id: " + id));
-
-                FlightDto flightDto = new FlightDto(flight.getIdFlight(),
-                                airportToAirportDto(flight.getDepartureAirport()),
-                                airportToAirportDto(flight.getArrivalAirport()),
-                                flight.getDateFlight(),
-                                flight.getStatusFlight(),
-                                flight.getPrice(),
-                                flight.getAvailableSeats(),
-                                flight.getTotalSeats());
-
-                return flightDto;
-        }
-
-        @Transactional
-        public FlightDto store(FlightDto newFlightData) {
-                Airport departureAirport = findAirportById(newFlightData.departureAirport().idAirport());
-                Airport arrivalAirport = findAirportById(newFlightData.arrivalAirport().idAirport());
-
-                Flight newFlight = new Flight(
-                                departureAirport,
-                                arrivalAirport,
-                                newFlightData.dateFlight(),
-                                newFlightData.status(),
-                                newFlightData.price(),
-                                newFlightData.availableSeats(),
-                                newFlightData.totalSeats());
-
-                newFlight.updateStatusIfNeeded();
-                Flight savedFlight = repository.save(newFlight);
-
-                return new FlightDto(
-                                savedFlight.getIdFlight(),
-                                airportToAirportDto(savedFlight.getDepartureAirport()),
-                                airportToAirportDto(savedFlight.getArrivalAirport()),
-                                savedFlight.getDateFlight(),
-                                savedFlight.getStatusFlight(),
-                                savedFlight.getPrice(),
-                                savedFlight.getAvailableSeats(),
-                                savedFlight.getTotalSeats());
-        }
-
-        @Transactional
-        public FlightDto updateFlight(Long id, FlightDto flightDtoUpdateData) {
-                Flight existingFlight = repository.findById(id)
-                                .orElseThrow(() -> new FlightNotFoundException("Flight with id " + id + " not found"));
-
-                Airport departureAirport = findAirportById(flightDtoUpdateData.departureAirport().idAirport());
-                Airport arrivalAirport = findAirportById(flightDtoUpdateData.arrivalAirport().idAirport());
-
-                existingFlight.setDepartureAirport(departureAirport);
-                existingFlight.setArrivalAirport(arrivalAirport);
-                existingFlight.setDateFlight(flightDtoUpdateData.dateFlight());
-                existingFlight.setStatusFlight(flightDtoUpdateData.status());
-                existingFlight.setPrice(flightDtoUpdateData.price());
-                existingFlight.setAvailableSeats(flightDtoUpdateData.availableSeats());
-                existingFlight.setTotalSeats(flightDtoUpdateData.totalSeats());
-
-                existingFlight.updateStatusIfNeeded();
-                Flight savedFlight = repository.save(existingFlight);
-
-                return new FlightDto(
-                                savedFlight.getIdFlight(),
-                                airportToAirportDto(savedFlight.getDepartureAirport()),
-                                airportToAirportDto(savedFlight.getArrivalAirport()),
-                                savedFlight.getDateFlight(),
-                                savedFlight.getStatusFlight(),
-                                savedFlight.getPrice(),
-                                savedFlight.getAvailableSeats(),
-                                savedFlight.getTotalSeats());
-        }
-
-        public void deleteById(Long id) {
-                if (!repository.existsById(id)) {
-                        throw new FlightNotFoundException("Flight with id " + id + " not found");
-                }
-                repository.deleteById(id);
-        }
-
-        private AirportDto airportToAirportDto(Airport airport) {
-                return new AirportDto(
-                                airport.getIdAirport(),
-                                airport.getNameAirport(),
-                                airport.getCodeIata());
-        }
-
-        private Airport findAirportById(Long id) {
-                return airportRepository.findById(id)
-                                .orElseThrow(() -> new AirportNotFoundException("Airport not found with id: " + id));
-        }
+    public Flight findFlightByParameters(String departureCodeIata,
+                                         String arivalCodeIata,
+                                         LocalDateTime flightTime,
+                                         int seats) {
+        return flightRepository.findFlightByParameters(departureCodeIata,
+                        arivalCodeIata,
+                        flightTime,
+                        seats)
+                .orElseThrow(() -> new FlightNotFoundException("Flight not found with the specified parameters"));
+    }
 }

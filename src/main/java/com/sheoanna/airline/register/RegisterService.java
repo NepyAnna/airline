@@ -3,29 +3,26 @@ package com.sheoanna.airline.register;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sheoanna.airline.users.dtos.UserRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 import com.sheoanna.airline.encryptions.IEncryptFacade;
 import com.sheoanna.airline.role.RoleService;
 import com.sheoanna.airline.users.User;
-import com.sheoanna.airline.users.UserDto;
 import com.sheoanna.airline.users.UserRepository;
 import com.sheoanna.airline.users.exceptions.UserAlreadyExistsException;
 
 @Service
+@RequiredArgsConstructor
 public class RegisterService {
-
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final IEncryptFacade encryptFacade;
 
-    public RegisterService(UserRepository userRepository, RoleService roleService, IEncryptFacade encryptFacade) {
-        this.userRepository = userRepository;
-        this.roleService = roleService;
-        this.encryptFacade = encryptFacade;
-    }
-
-    public Map<String, String> save(UserDto userData) {
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Map<String, String> save(UserRequest userData) {
 
         if (userRepository.findByUsername(userData.username()).isPresent()) {
             throw new UserAlreadyExistsException("User with email " + userData.username() + " already exists");
@@ -35,7 +32,11 @@ public class RegisterService {
 
         String passwordEncoded = encryptFacade.encode("bcrypt", passwordDecoded);
 
-        User newUser = new User(userData.username(), passwordEncoded);
+        User newUser = User.builder()
+                .username(userData.username())
+                .password(passwordEncoded)
+                .build();
+
         newUser.setRoles(roleService.assignDefaultRole());
 
         userRepository.save(newUser);
@@ -45,5 +46,4 @@ public class RegisterService {
 
         return response;
     }
-
 }

@@ -1,35 +1,64 @@
 package com.sheoanna.airline.users;
 
-import java.util.List;
-
+import com.sheoanna.airline.profile.Profile;
+import com.sheoanna.airline.role.Role;
+import com.sheoanna.airline.users.dtos.UserMapper;
+import com.sheoanna.airline.users.dtos.UserResponse;
+import com.sheoanna.airline.users.exceptions.UserNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.sheoanna.airline.users.exceptions.UserNotFoundException;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    private UserRepository repository;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository repository) {
-        this.repository = repository;
+    public User getAuthenticatedUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        System.out.println("Authenticated username: " + username);
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
-    public List<User> findAll() {
-        return repository.findAll();
+    public boolean isAdmin(User user) {
+        return user.getRoles().stream()
+                .map(Role::getName)
+                .anyMatch(roleName -> roleName.equalsIgnoreCase("ADMIN") || roleName.equalsIgnoreCase("ROLE_ADMIN"));
     }
 
-    public User findById(Long id) {
-        User user = repository.findById(id)
+    public boolean hasAccessToProfile(Profile profile) {
+        User user = getAuthenticatedUser();
+        return isAdmin(user) || profile.getUser().getId().equals(user.getId());
+    }
+
+    public Page<UserResponse> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(userMapper::toResponse);
+    }
+
+    public UserResponse findById(Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
-        return user;
+        return userMapper.toResponse(user);
     }
 
     @Transactional
     public void deleteById(Long id) {
-        User user = repository.findById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
-        repository.delete(user);
+        userRepository.delete(user);
     }
 }

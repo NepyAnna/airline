@@ -1,55 +1,51 @@
 package com.sheoanna.airline.bookings;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
-
+import com.sheoanna.airline.bookings.dtos.BookingRequest;
+import com.sheoanna.airline.bookings.dtos.BookingResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("${api-endpoint}/bookings")
+@RequiredArgsConstructor
 public class BookingController {
-    private BookingService service;
-
-    public BookingController(BookingService service) {
-        this.service = service;
-    }
+    private final BookingService bookingService;
 
     @GetMapping("")
-    public List<BookingDto> index() {
-        List<BookingDto> bookings = service.getAll();
-        return bookings;
+    public Page<BookingResponse> showAllBookings(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "4") int size/*,
+            @RequestParam(defaultValue = "id") String sortBy*/
+    ) {
+        Pageable pageable = PageRequest.of(page, size/*, Sort.by(sortBy)*/);
+        return bookingService.findAllBookings(pageable);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookingDto> showByBookingId(@PathVariable Long id) {
-        BookingDto bookingDto = service.getById(id);
-        return ResponseEntity.ok(bookingDto);
+    public ResponseEntity<BookingResponse> showByBookingId(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.findBookingById(id));
     }
 
     @PostMapping("")
-    public ResponseEntity<BookingDto> createBooking(@RequestBody BookingDto newBookingDtoData) {
-        BookingDto saveBookingDto = service.createBooking(newBookingDtoData);
-
-        return ResponseEntity.ok(saveBookingDto);
+    public ResponseEntity<BookingResponse> createBooking(@RequestBody BookingRequest newBookingData) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(bookingService.createBooking(newBookingData));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookingDto> putBookingById(@PathVariable Long id,
-            @RequestBody BookingDto bookingDtoUpdateData) {
-        BookingDto updatedBooking = service.updateBooking(id, bookingDtoUpdateData);
-        return ResponseEntity.ok(updatedBooking);
+    public ResponseEntity<BookingResponse> putBookingById(@PathVariable Long id,
+                                                          @RequestBody BookingRequest bookingUpdateData) {
+        return ResponseEntity.ok(bookingService.updateBooking(id, bookingUpdateData));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBookingById(@PathVariable Long id) {
-        service.deleteBooking(id);
+        bookingService.deleteBooking(id);
         return ResponseEntity.noContent().build();
     }
 }

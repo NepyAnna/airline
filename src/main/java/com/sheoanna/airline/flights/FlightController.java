@@ -1,54 +1,50 @@
 package com.sheoanna.airline.flights;
 
-import java.util.List;
-
+import com.sheoanna.airline.flights.dtos.FlightRequest;
+import com.sheoanna.airline.flights.dtos.FlightResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("${api-endpoint}/private/flights")
+@RequiredArgsConstructor
 public class FlightController {
-    private FlightService service;
-
-    public FlightController(FlightService service) {
-        this.service = service;
-    }
+    private final FlightService flightService;
 
     @GetMapping("")
-    public List<FlightDto> index() {
-        List<FlightDto> flights = service.getAll();
-        return flights;
+    public Page<FlightResponse> showAllFlights(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "4") int size/*,
+            @RequestParam(defaultValue = "id") String sortBy*/
+    ) {
+        Pageable pageable = PageRequest.of(page, size/*, Sort.by(sortBy)*/);
+        return flightService.findAllFlights(pageable);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FlightDto> showById(@PathVariable Long id) {
-        FlightDto flightDto = service.getById(id);
-        return ResponseEntity.ok(flightDto);
+    public ResponseEntity<FlightResponse> showFlightById(@PathVariable Long id) {
+        return ResponseEntity.ok(flightService.findFlightById(id));
     }
 
     @PostMapping("")
-    public ResponseEntity<FlightDto> create(@RequestBody FlightDto newFlightDtoData) {
-        FlightDto createFlightDto = service.store(newFlightDtoData);
-        return ResponseEntity.ok(createFlightDto);
+    public ResponseEntity<FlightResponse> createFlight(@RequestBody FlightRequest newFlightData) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(flightService.storeFlight(newFlightData));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FlightDto> putFlightById(@PathVariable Long id, @RequestBody FlightDto flightUpdatedDataDto) {
-        FlightDto updatedFlightDto = service.updateFlight(id, flightUpdatedDataDto);
-        return ResponseEntity.ok(updatedFlightDto);
+    public ResponseEntity<FlightResponse> updateFlightById(@PathVariable Long id, @RequestBody FlightRequest flightUpdatedData) {
+        return ResponseEntity.ok(flightService.updateFlight(id, flightUpdatedData));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFlightById(@PathVariable Long id) {
-        service.deleteById(id);
+        flightService.deleteFlightById(id);
         return ResponseEntity.noContent().build();
-
     }
 }
