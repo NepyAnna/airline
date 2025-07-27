@@ -1,15 +1,14 @@
 package com.sheoanna.airline.bookings.exceptions;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import com.sheoanna.airline.global.AppException;
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Booking not found")
-public class BookingNotFoundException extends BookingException {
-
+public class BookingNotFoundException extends AppException {
+    public BookingNotFoundException(Long id) {
+        super("Booking with ID " + id + " not found ");
+    }
     public BookingNotFoundException(String message) {
         super(message);
     }
-
     public BookingNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }

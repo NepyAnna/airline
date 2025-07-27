@@ -1,15 +1,14 @@
 package com.sheoanna.airline.airport.exceptions;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import com.sheoanna.airline.global.AppException;
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Airport not found")
-public class AirportNotFoundException extends AirportException{
-    
-     public AirportNotFoundException(String message) {
-        super(message);
+public class AirportNotFoundException extends AppException {
+    public AirportNotFoundException(Long id) {
+        super("Airport with ID " + id + " not found");
     }
-
+    public AirportNotFoundException(String iata) {
+        super("Airport with IATA code  " + iata + " not found");
+    }
     public AirportNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }

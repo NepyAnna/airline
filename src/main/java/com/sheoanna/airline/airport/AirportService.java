@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.sheoanna.airline.airport.exceptions.AirportAlreadyExistsException;
 import com.sheoanna.airline.airport.exceptions.AirportNotFoundException;
 
@@ -29,13 +28,13 @@ public class AirportService {
 
     public AirportResponse findById(Long id) {
         Airport airport = airportRepository.findById(id)
-                .orElseThrow(() -> new AirportNotFoundException("Airport with id " + id + " not found"));
+                .orElseThrow(() -> new AirportNotFoundException(id));
         return airportMapper.toResponse(airport);
     }
 
     public AirportResponse findByCodeIata(String code) {
         Airport airport = airportRepository.findByCodeIata(code)
-                .orElseThrow(() -> new AirportNotFoundException("Airport not found with code IATA " + code));
+                .orElseThrow(() -> new AirportNotFoundException(code));
         return airportMapper.toResponse(airport);
     }
 
@@ -43,7 +42,7 @@ public class AirportService {
     public AirportResponse store(AirportRequest newAirportData) {
         Airport airport = airportMapper.toEntity(newAirportData);
         if (airportRepository.findByCodeIata(airport.getCodeIata()).isPresent()) {
-            throw new AirportAlreadyExistsException("Airport already exists with cod: " + airport.getCodeIata());
+            throw new AirportAlreadyExistsException(airport.getCodeIata());
         }
         Airport savedAirport = airportRepository.save(airport);
         return airportMapper.toResponse(savedAirport);
@@ -52,7 +51,7 @@ public class AirportService {
     @Transactional
     public AirportResponse updateAirportData(Long id, AirportRequest airportDtoUpdateData) {
         Airport existingAirport = airportRepository.findById(id)
-                .orElseThrow(() -> new AirportNotFoundException("Airport with id " + id + " not found"));
+                .orElseThrow(() -> new AirportNotFoundException(id));
 
         existingAirport.setName(airportDtoUpdateData.name());
         existingAirport.setCodeIata(airportDtoUpdateData.codeIata());
@@ -67,13 +66,13 @@ public class AirportService {
             throw new AccessDeniedException("You are not allowed to delete airport.");
         }
         if (!airportRepository.existsById(id)) {
-            throw new AirportNotFoundException("Airport with id " + id + " not found");
+            throw new AirportNotFoundException(id);
         }
         airportRepository.deleteById(id);
     }
 
     public Airport findObjByCodeIata(String code) {
         return airportRepository.findByCodeIata(code)
-                .orElseThrow(() -> new AirportNotFoundException("Airport not found with code IATA " + code));
+                .orElseThrow(() -> new AirportNotFoundException(code));
     }
 }

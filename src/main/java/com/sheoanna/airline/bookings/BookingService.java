@@ -4,6 +4,7 @@ import com.sheoanna.airline.bookings.dtos.BookingMapper;
 import com.sheoanna.airline.bookings.dtos.BookingRequest;
 import com.sheoanna.airline.bookings.dtos.BookingResponse;
 import com.sheoanna.airline.flights.FlightService;
+import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import com.sheoanna.airline.bookings.exceptions.BookingException;
 import com.sheoanna.airline.bookings.exceptions.BookingNotFoundException;
 import com.sheoanna.airline.flights.Flight;
 
@@ -37,7 +37,7 @@ public class BookingService {
 
     public BookingResponse findBookingById(Long id) {
         Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
+                .orElseThrow(() -> new BookingNotFoundException(id));
 
         return bookingMapper.toResponse(booking);
     }
@@ -56,16 +56,15 @@ public class BookingService {
                 newBooking.bookedSeats());
 
         if (flight.getAvailableSeats() < newBooking.bookedSeats()) {
-            throw new BookingException("Not enough available seats on this flight");
+            throw new FlightNotFoundException("Not enough available seats on this flight");
         }
-
         flight.setAvailableSeats(flight.getAvailableSeats() - newBooking.bookedSeats());
 
         Booking booking = bookingMapper.toEntity(newBooking);
         booking.setFlight(flight);
         booking.setUser(user);
         booking.setFlight(flight);
-        booking.setDateBooking(LocalDateTime.now());///!!!!!!???Think
+        booking.setDateBooking(LocalDateTime.now());
         booking.setBookedSeats(newBooking.bookedSeats());
         booking.setStatus(BookingStatus.CONFIRMED);
 
@@ -77,7 +76,7 @@ public class BookingService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public BookingResponse updateBooking(Long id, BookingRequest updateBookingData) {
         Booking existingBooking = bookingRepository.findById(id)
-                .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
+                .orElseThrow(() -> new BookingNotFoundException(id));
 
         User user = userService.getAuthenticatedUser();
 
@@ -93,7 +92,7 @@ public class BookingService {
 
         int newSeatsDelta = updateBookingData.bookedSeats() - existingBooking.getBookedSeats();
         if (flight.getAvailableSeats() < newSeatsDelta) {
-            throw new BookingException("Not enough available seats on this flight");
+            throw new FlightNotFoundException("Not enough available seats on this flight");
         }
         flight.setAvailableSeats(flight.getAvailableSeats() - newSeatsDelta);
 
@@ -107,7 +106,7 @@ public class BookingService {
     @Transactional
     public void deleteBooking(Long id) {
         Booking existingBooking = bookingRepository.findById(id)
-                .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
+                .orElseThrow(() -> new BookingNotFoundException(id));
 
         User user = userService.getAuthenticatedUser();
 
