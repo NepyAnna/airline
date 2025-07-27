@@ -35,9 +35,7 @@ public class Flight {
     private FlightStatus status = FlightStatus.AVAILABLE;
 
     private double price;
-
     private int availableSeats;
-
     private int totalSeats;
 
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)

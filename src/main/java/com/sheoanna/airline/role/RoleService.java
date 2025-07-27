@@ -9,7 +9,6 @@ import com.sheoanna.airline.role.exceptions.RoleNotFoundException;
 
 @Service
 public class RoleService {
-
     private final RoleRepository repository;
 
     public RoleService(RoleRepository repository) {
@@ -29,6 +28,5 @@ public class RoleService {
 
         return roles;
     }
-
 }
 
