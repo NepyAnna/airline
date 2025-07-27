@@ -2,7 +2,12 @@ package com.sheoanna.airline.users;
 
 import com.sheoanna.airline.profile.Profile;
 import com.sheoanna.airline.role.Role;
+import com.sheoanna.airline.users.dtos.UserMapper;
+import com.sheoanna.airline.users.dtos.UserResponse;
+import com.sheoanna.airline.users.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +21,7 @@ import org.springframework.transaction.annotation.Isolation;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public User getAuthenticatedUser() {
 
@@ -37,20 +43,22 @@ public class UserService {
         User user = getAuthenticatedUser();
         return isAdmin(user) || profile.getUser().getId().equals(user.getId());
     }
-    /*public List<User> findAll() {
-        return repository.findAll();
+
+    public Page<UserResponse> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(userMapper::toResponse);
     }
 
-    public User findById(Long id) {
-        User user = repository.findById(id)
+    public UserResponse findById(Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
-        return user;
+        return userMapper.toResponse(user);
     }
 
     @Transactional
     public void deleteById(Long id) {
-        User user = repository.findById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
-        repository.delete(user);
+        userRepository.delete(user);
     }
-*/}
+}
