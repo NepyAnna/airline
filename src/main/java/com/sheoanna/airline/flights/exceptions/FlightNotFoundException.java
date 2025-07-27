@@ -1,14 +1,12 @@
 package com.sheoanna.airline.flights.exceptions;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import com.sheoanna.airline.global.AppException;
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Flight not found")
-public class FlightNotFoundException extends FlightException {
+public class FlightNotFoundException extends AppException {
+    public FlightNotFoundException(Long id) {super("Flight with ID " + id + " not found.");}
     public FlightNotFoundException(String message) {
         super(message);
     }
-
     public FlightNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }

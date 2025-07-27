@@ -36,7 +36,7 @@ public class ProfileService {
 
     public ProfileResponse findById(Long id) {
         Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
+                .orElseThrow(() -> new ProfileNotFoundException(id));
 
         if (!userService.hasAccessToProfile(profile)) {
             throw new AccessDeniedException("You are not allowed to access this profile.");
@@ -50,7 +50,7 @@ public class ProfileService {
 
         if (profileRepository.findByUserId(user.getId()).isPresent()) {
             throw new ProfileAlreadyExistsException(
-                    "Profile with user_id: " + user.getId() + "already exists!");
+                    "Profile with user_id: " + user.getId() + " already exists!");
         }
         Profile profile = profileMapper.toEntity(newProfileData);
         profile.setUser(user);
@@ -88,7 +88,7 @@ public class ProfileService {
     @Transactional
     public void deleteById(Long id) {
         Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
+                .orElseThrow(() -> new ProfileNotFoundException(id));
 
         if (!userService.hasAccessToProfile(profile)) {
             throw new AccessDeniedException("You are not allowed to access this profile.");

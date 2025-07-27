@@ -30,7 +30,7 @@ public class FlightService {
 
     public FlightResponse findFlightById(Long id) {
         Flight flight = flightRepository.findById(id)
-                .orElseThrow(() -> new FlightNotFoundException("Airport not found with id: " + id));
+                .orElseThrow(() -> new FlightNotFoundException(id));
         return flightMapper.toResponse(flight);
     }
 
@@ -52,7 +52,7 @@ public class FlightService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public FlightResponse updateFlight(Long id, FlightRequest flightUpdateData) {
         Flight existingFlight = flightRepository.findById(id)
-                .orElseThrow(() -> new FlightNotFoundException("Flight with id " + id + " not found"));
+                .orElseThrow(() -> new FlightNotFoundException(id));
 
         Airport departureAirport = airportService.findObjByCodeIata(flightUpdateData.departureAirportIata());
         Airport arrivalAirport = airportService.findObjByCodeIata(flightUpdateData.arrivalAirportIata());
@@ -67,14 +67,12 @@ public class FlightService {
 
         existingFlight.updateStatusIfNeeded();
 
-        //Flight savedFlight = repository.save(existingFlight);// Transactional will save
-
         return flightMapper.toResponse(existingFlight);
     }
 
     public void deleteFlightById(Long id) {
         if (!flightRepository.existsById(id)) {
-            throw new FlightNotFoundException("Flight with id " + id + " not found");
+            throw new FlightNotFoundException(id);
         }
         flightRepository.deleteById(id);
     }
