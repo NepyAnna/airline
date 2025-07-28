@@ -37,9 +37,7 @@ public class SecurityUser implements UserDetails {
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getName());
             authorities.add(authority);
         }
-
         return authorities;
-
     }
 
     @Override
@@ -61,5 +59,4 @@ public class SecurityUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }
