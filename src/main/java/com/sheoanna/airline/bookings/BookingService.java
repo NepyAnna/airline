@@ -3,8 +3,10 @@ package com.sheoanna.airline.bookings;
 import com.sheoanna.airline.bookings.dtos.BookingMapper;
 import com.sheoanna.airline.bookings.dtos.BookingRequest;
 import com.sheoanna.airline.bookings.dtos.BookingResponse;
+import com.sheoanna.airline.email.EmailService;
 import com.sheoanna.airline.flights.FlightService;
 import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
+import com.sheoanna.airline.profile.Profile;
 import com.sheoanna.airline.users.User;
 import com.sheoanna.airline.users.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class BookingService {
     private final FlightService flightService;
     private final UserService userService;
     private final BookingMapper bookingMapper;
+    private final EmailService emailService;
 
     public Page<BookingResponse> findAllBookings(Pageable pageble) {
         return bookingRepository.findAll(pageble)
@@ -70,6 +73,19 @@ public class BookingService {
 
         Booking savedBooking = bookingRepository.save(booking);
         scheduleSeatRelease(savedBooking);
+
+        Profile profile = user.getProfile();
+
+        if (profile != null && profile.getEmail() != null) {
+            emailService.sendBookingConfirmation(
+                    profile.getEmail(),
+                    user.getUsername(),
+                    flight.getDepartureAirport().getCodeIata(),
+                    flight.getArrivalAirport().getCodeIata(),
+                    flight.getDateFlight().toString(),
+                    booking.getBookedSeats()
+            );
+        }
         return bookingMapper.toResponse(savedBooking);
     }
 
