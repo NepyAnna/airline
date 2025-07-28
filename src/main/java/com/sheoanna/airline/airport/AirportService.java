@@ -8,11 +8,13 @@ import com.sheoanna.airline.users.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.sheoanna.airline.airport.exceptions.AirportAlreadyExistsException;
 import com.sheoanna.airline.airport.exceptions.AirportNotFoundException;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -74,5 +76,26 @@ public class AirportService {
     public Airport findObjByCodeIata(String code) {
         return airportRepository.findByCodeIata(code)
                 .orElseThrow(() -> new AirportNotFoundException(code));
+    }
+
+    public void validateIataCodes(String departureCodeIata, String arrivalCodeIata) {
+        if (departureCodeIata.equals(arrivalCodeIata)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Departure and arrival airports must be differ"
+            );
+        }
+
+        if (airportRepository.findByCodeIata(departureCodeIata).isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Unknown departure airport: " + departureCodeIata);
+        }
+
+        if (airportRepository.findByCodeIata(arrivalCodeIata).isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Unknown arrival airport: " + arrivalCodeIata);
+        }
     }
 }

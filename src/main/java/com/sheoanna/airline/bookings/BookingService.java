@@ -1,5 +1,6 @@
 package com.sheoanna.airline.bookings;
 
+import com.sheoanna.airline.airport.AirportService;
 import com.sheoanna.airline.bookings.dtos.BookingMapper;
 import com.sheoanna.airline.bookings.dtos.BookingRequest;
 import com.sheoanna.airline.bookings.dtos.BookingResponse;
@@ -32,6 +33,7 @@ public class BookingService {
     private final UserService userService;
     private final BookingMapper bookingMapper;
     private final EmailService emailService;
+    private final AirportService airportService;
 
     public Page<BookingResponse> findAllBookings(Pageable pageble) {
         return bookingRepository.findAll(pageble)
@@ -52,6 +54,8 @@ public class BookingService {
         if (userService.isAdmin(user)) {
             throw new AccessDeniedException("ADMIN is not allowed to add a booking.");
         }
+        airportService.validateIataCodes(newBooking.departureCodeIata(), newBooking.arrivalCodeIata());
+
         Flight flight = flightService.findFlightByParameters(
                 newBooking.departureCodeIata(),
                 newBooking.arrivalCodeIata(),
@@ -99,6 +103,8 @@ public class BookingService {
         if (!user.getUsername().equals(existingBooking.getUser().getUsername())) {
             throw new AccessDeniedException("You are not allowed  to change this booking.");
         }
+
+        airportService.validateIataCodes(updateBookingData.departureCodeIata(), updateBookingData.arrivalCodeIata());
 
         Flight flight = flightService.findFlightByParameters(
                 updateBookingData.departureCodeIata(),
