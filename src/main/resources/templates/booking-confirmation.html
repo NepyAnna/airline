@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Booking confirmation</title>
+</head>
+<body>
+<h2>Hello, <span th:text="${username}"> </span>!</h2>
+<p>Your flight reservation from <b th:text="${departure}"></b> to <b th:text="${arrival}"></b> on <b th:text="${date}"></b> has been confirmed.</p>
+<p>Seats amount: <b th:text="${seats}"></b></p>
+</body>
+</html>

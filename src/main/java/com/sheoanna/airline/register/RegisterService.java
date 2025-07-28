@@ -3,6 +3,8 @@ package com.sheoanna.airline.register;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sheoanna.airline.email.EmailService;
+import com.sheoanna.airline.profile.Profile;
 import com.sheoanna.airline.users.dtos.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class RegisterService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final IEncryptFacade encryptFacade;
+    private final EmailService emailService;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public Map<String, String> save(UserRequest userData) {
@@ -29,7 +32,6 @@ public class RegisterService {
         }
 
         String passwordDecoded = encryptFacade.decode("base64", userData.password());
-
         String passwordEncoded = encryptFacade.encode("bcrypt", passwordDecoded);
 
         User newUser = User.builder()
@@ -37,9 +39,19 @@ public class RegisterService {
                 .password(passwordEncoded)
                 .build();
 
+        Profile profile = Profile.builder()
+                .email(userData.email())
+                .user(newUser)
+                .build();
+        newUser.setProfile(profile);
+
         newUser.setRoles(roleService.assignDefaultRole());
 
         userRepository.save(newUser);
+
+        if (userData.email() != null && !userData.email().isBlank()) {
+            emailService.sendRegistrationEmail(userData.email(), userData.username());
+        }
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Success");
