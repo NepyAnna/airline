@@ -4,27 +4,16 @@ The project aims to develop a management system for an airline using Spring with
 ## Some features
 
 ### User — Profile Relationship
-Type of relationship:
+**Type of relationship:**
 One-to-One, bidirectional:
 User is the "owner" of the profile (manages the lifecycle of the Profile).
 The Profile exists only as an extension of the user's data.
 
 #### Implementation details:
-User manages the creation, update, and deletion of the profile (cascade = CascadeType.ALL).
-
-Profile cannot exist without a User, but a User can exist without a fully completed Profile.
-
-After a user is created, the profile is created separately (not automatically in the backend, but by client logic).
-
-#### Business logic:
-The profile is not created automatically in the registration service.
-Responsibility for creating the Profile lies with the frontend.
-After registering a user, the frontend must send a POST request to /api/profile.
-
-#### Advantages of this approach:
-Flexibility: the profile can be created/updated separately after registration.
-Clean separation of responsibilities between modules: UserService does not depend on ProfileRepository.
-Convenient for implementing multi-step registration or a separate profile settings form.
+- The `User` entity manages the creation, update, and deletion of the `Profile` using `cascade = CascadeType.ALL`.
+- A `Profile` cannot exist without a `User`.
+- A `User` **always has an associated `Profile`** created automatically during registration.
+- The `Profile` is initialized with the user's email and linked directly to the `User`.
 ```java
 // User.java
 @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -36,6 +25,19 @@ private Profile profile;
 @JsonIgnore
 private User user;
 ```
+
+#### Business logic:
+During registration:
+
+- The user provides a username, password, and email.
+
+- A User object is created.
+
+- A linked Profile object with the email is automatically created.
+
+- A confirmation email is sent to the provided email address.
+
+All of this happens inside the registration service (UserService), without requiring any separate client-side calls to create a profile.
 
 ## Installation Steps
 ```bash
@@ -135,7 +137,6 @@ Build → Rebuild Project
 ### Profiles
 - GET http://localhost:8080/api/v1/profiles  to get list with all profiles(Only available to users with the ADMIN role).
 - GET http://localhost:8080/api/v1/profiles/{id}  to get profile by id(Only available to users with the USER and ADMIN role).
-- POST http://localhost:8080/api/v1/profiles  to add new profile(Only available to users with the USER and ADMIN role).
 - PUT http://localhost:8080/api/v1/profiles/{id} to update profile(Only available to users with the USER and ADMIN role).
 - Delete http://localhost:8080/api/v1/profiles/{id} to delete profile by id.
 

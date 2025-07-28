@@ -2,6 +2,7 @@ package com.sheoanna.airline.bookings;
 
 import com.sheoanna.airline.bookings.dtos.BookingRequest;
 import com.sheoanna.airline.bookings.dtos.BookingResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,14 +33,14 @@ public class BookingController {
     }
 
     @PostMapping("")
-    public ResponseEntity<BookingResponse> createBooking(@RequestBody BookingRequest newBookingData) {
+    public ResponseEntity<BookingResponse> createBooking(@Valid @RequestBody BookingRequest newBookingData) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bookingService.createBooking(newBookingData));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BookingResponse> putBookingById(@PathVariable Long id,
-                                                          @RequestBody BookingRequest bookingUpdateData) {
+                                                          @Valid @RequestBody BookingRequest bookingUpdateData) {
         return ResponseEntity.ok(bookingService.updateBooking(id, bookingUpdateData));
     }
 
