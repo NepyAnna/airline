@@ -28,5 +28,4 @@ public class FlightStatusScheduler {
         }
         flightRepository.saveAll(flights);
     }
-    
 }
