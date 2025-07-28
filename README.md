@@ -30,14 +30,36 @@ private User user;
 During registration:
 
 - The user provides a username, password, and email.
-
 - A User object is created.
-
 - A linked Profile object with the email is automatically created.
-
 - A confirmation email is sent to the provided email address.
-
 All of this happens inside the registration service (UserService), without requiring any separate client-side calls to create a profile.
+
+
+### Email Notification Service
+The application includes an email service that sends HTML-formatted booking confirmation emails using Thymeleaf templates.
+
+#### Features:
+- Sends a confirmation email to the user's profile email address after a successful registration or booking.
+- Uses Thymeleaf (TemplateEngine, Context) to generate rich HTML content.
+- Automatically triggered in UserService.save() or BookingService.createBooking() after saving.
+
+#### Email Content:
+Recipient: the user's email (retrieved from Profile)
+Subject: Registration mail / Booking Confirmation
+Body: generated from a Thymeleaf HTML template (booking-confirmation.html) and includes:
+Username / Flight route and date / Number of booked seats / Booking status
+
+#### Technology:
+JavaMailSender for sending emails
+Thymeleaf for dynamic HTML content rendering
+Template: located in resources/templates/booking-confirmation.html
+
+#### Flow:
+User creates a booking via POST /api/bookings
+Booking is saved to the database
+EmailService.sendBookingConfirmationEmail() is called
+Email is rendered from Thymeleaf template and sent to the user
 
 ## Installation Steps
 ```bash
@@ -141,10 +163,7 @@ Build → Rebuild Project
 - Delete http://localhost:8080/api/v1/profiles/{id} to delete profile by id.
 
 ## Running Tests
-- Run the tests to validate the code functionality and observe test coverage.
-- The project ensures more than 70% coverage across all methods.
-
-[![temp-Image8-Z32s6.avif](https://i.postimg.cc/y8FMr2cp/temp-Image8-Z32s6.avif)](https://postimg.cc/G4mg47Mv)
+- 
 
 ## ERR Diagram
 [![temp-Image-UR4-NJP.avif](https://i.postimg.cc/Hkyv3TPZ/temp-Image-UR4-NJP.avif)](https://postimg.cc/21CxSNYh)
