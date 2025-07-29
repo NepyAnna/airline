@@ -85,13 +85,11 @@ public class AirportService {
                     "Departure and arrival airports must be differ"
             );
         }
-
         if (airportRepository.findByCodeIata(departureCodeIata).isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Unknown departure airport: " + departureCodeIata);
         }
-
         if (airportRepository.findByCodeIata(arrivalCodeIata).isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,

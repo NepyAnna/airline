@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.sheoanna.airline.airport.exceptions.AirportNotFoundException;
+import com.sheoanna.airline.bookings.exceptions.BookingNotFoundException;
+import com.sheoanna.airline.flights.exceptions.FlightNotFoundException;
 import com.sheoanna.airline.profile.exceptions.ProfileNotFoundException;
 import com.sheoanna.airline.users.exceptions.UserNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -42,10 +44,25 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
+
     @ExceptionHandler(AirportNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleAirportNotFoundException(AirportNotFoundException ex) {
         Map<String, String> response = new HashMap<>();
         response.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(FlightNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleFlightNotFound(FlightNotFoundException exception) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(BookingNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleBookingNotFound(BookingNotFoundException exception) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
