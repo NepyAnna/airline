@@ -20,8 +20,7 @@ public class BookingController {
     @GetMapping("")
     public Page<BookingResponse> showAllBookings(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "4") int size/*,
-            @RequestParam(defaultValue = "id") String sortBy*/
+            @RequestParam(defaultValue = "4") int size
     ) {
         Pageable pageable = PageRequest.of(page, size/*, Sort.by(sortBy)*/);
         return bookingService.findAllBookings(pageable);
