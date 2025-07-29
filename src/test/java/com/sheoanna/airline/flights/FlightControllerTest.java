@@ -47,12 +47,17 @@ class FlightControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired private ObjectMapper objectMapper;
-    @Autowired private AirportRepository airportRepository;
-    @Autowired private FlightRepository flightRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private AirportRepository airportRepository;
+
+    @Autowired
+    private FlightRepository flightRepository;
 
     private final String BASE_URL = "/api/v1/private/flights";
-
     private Airport departure;
     private Airport arrival;
 

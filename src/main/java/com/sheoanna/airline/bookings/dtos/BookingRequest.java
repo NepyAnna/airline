@@ -1,7 +1,6 @@
 package com.sheoanna.airline.bookings.dtos;
 
 import jakarta.validation.constraints.*;
-
 import java.time.LocalDateTime;
 
 public record BookingRequest(@NotBlank(message="Code IATA of departure airport required")
@@ -13,4 +12,5 @@ public record BookingRequest(@NotBlank(message="Code IATA of departure airport r
                              @FutureOrPresent(message = "Flight date must not be in the past")
                              @NotNull(message = "Flight date is required")
                              LocalDateTime dateFlight,
+                             @Min(value = 0, message = "Available seats must be zero or positive")
                              int bookedSeats) {}
