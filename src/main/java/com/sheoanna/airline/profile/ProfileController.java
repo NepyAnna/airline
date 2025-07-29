@@ -20,8 +20,7 @@ public class ProfileController {
     @GetMapping("")
     public Page<ProfileResponse> showAllProfiles(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "4") int size/*,
-            @RequestParam(defaultValue = "id") String sortBy*/
+            @RequestParam(defaultValue = "4") int size
     ) {
         Pageable pageable = PageRequest.of(page, size/*, Sort.by(sortBy)*/);
         return profileService.findAll(pageable);
