@@ -68,6 +68,27 @@ cd airline
 ```
 ### Run
 
+- Environment Variables
+The application requires a set of environment variables defined in a .env file.
+An example configuration is provided in .env.example.
+Steps:
+Copy the example file:
+
+```bash
+cp .env.example .env
+```
+Fill in the values for the following variables:
+DB_USERNAME - Database username
+DB_PASSWORD - Database password
+DB_URL - JDBC connection string to the database
+SERVER_PORT - Port the application runs on
+CLOUDINARY_CLOUD_NAME - Your Cloudinary cloud name
+CLOUDINARY_API_KEY - Cloudinary API key
+CLOUDINARY_API_SECRET - Cloudinary API secret
+DEFAULT_PROFILE_IMAGE - URL to the default profile image
+EMAIL - Email address for sending notifications
+EMAIL_PASSWORD - Password or app-specific key for the notification email
+
 ```bash
 ./mvnw spring-boot:run
 ```
@@ -190,9 +211,6 @@ If Docker is not available, Testcontainers will not be able to start the require
 
 ## ERR Diagram
 [![temp-Image-UR4-NJP.avif](https://i.postimg.cc/Hkyv3TPZ/temp-Image-UR4-NJP.avif)](https://postimg.cc/21CxSNYh)
-
-## ClassDiagram
-[![temp-Image-K8-Rn-U3.avif](https://i.postimg.cc/htrCmn9n/temp-Image-K8-Rn-U3.avif)](https://postimg.cc/Wdd6RQWY)
 
 ## Technology Stack
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
