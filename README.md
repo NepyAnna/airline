@@ -66,29 +66,28 @@ Email is rendered from Thymeleaf template and sent to the user
 git clone https://github.com/NepyAnna/airline.git
 cd airline
 ```
-### Run
 
-- Environment Variables
-The application requires a set of environment variables defined in a .env file.
+## Environment Variables
+- The application requires a set of environment variables defined in a .env file.
 An example configuration is provided in .env.example.
-Steps:
-Copy the example file:
-
+     Steps:
+- Copy the example file:
 ```bash
 cp .env.example .env
 ```
-Fill in the values for the following variables:
-DB_USERNAME - Database username
-DB_PASSWORD - Database password
-DB_URL - JDBC connection string to the database
-SERVER_PORT - Port the application runs on
-CLOUDINARY_CLOUD_NAME - Your Cloudinary cloud name
-CLOUDINARY_API_KEY - Cloudinary API key
-CLOUDINARY_API_SECRET - Cloudinary API secret
-DEFAULT_PROFILE_IMAGE - URL to the default profile image
-EMAIL - Email address for sending notifications
-EMAIL_PASSWORD - Password or app-specific key for the notification email
+- Fill in the values for the following variables:
+     DB_USERNAME - Database username
+     DB_PASSWORD - Database password
+     DB_URL - JDBC connection string to the database
+     SERVER_PORT - Port the application runs on
+     CLOUDINARY_CLOUD_NAME - Your Cloudinary cloud name
+     CLOUDINARY_API_KEY - Cloudinary API key
+     CLOUDINARY_API_SECRET - Cloudinary API secret
+     DEFAULT_PROFILE_IMAGE - URL to the default profile image
+     EMAIL - Email address for sending notifications
+     EMAIL_PASSWORD - Password or app-specific key for the notification email
 
+### Run
 ```bash
 ./mvnw spring-boot:run
 ```
