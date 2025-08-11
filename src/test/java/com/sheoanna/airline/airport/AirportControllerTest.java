@@ -108,7 +108,10 @@ class AirportControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testGetByCodeIata() throws Exception {
-        airportRepository.save(new Airport(null, "Dnipro Airport", "DNK", null, null));
+        Airport airport = new Airport();
+        airport.setName("Dnipro Airport");
+        airport.setCodeIata("DNK");
+        airportRepository.save(airport);
 
         mockMvc.perform(get(BASE_URL + "/code/DNK"))
                 .andExpect(status().isOk())

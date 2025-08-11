@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface AirportRepository extends JpaRepository<Airport, Long> {
-    Optional<Airport> findByCodeIata(String code);
+    Optional<Airport> findByCodeIata(String codeIata);
 }
