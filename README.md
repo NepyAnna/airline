@@ -163,7 +163,30 @@ Build → Rebuild Project
 - Delete http://localhost:8080/api/v1/profiles/{id} to delete profile by id.
 
 ## Running Tests
-- 
+- Unit Testing with JUnit and Mockito
+
+The project includes comprehensive unit tests for service layer components, implemented using JUnit 5 and Mockito.
+Mock objects are used to isolate the tested class from its dependencies, ensuring that the tests focus solely on the business logic without involving external systems such as databases or APIs.
+
+Key aspects of the unit tests:
+Mockito annotations such as @Mock and @InjectMocks simplify dependency injection for tests.
+Behavior verification ensures that the correct repository and service methods are called with the expected arguments.
+Exception testing validates that business rules and validation constraints trigger the correct exceptions.
+Tests are fast and deterministic, since no external services are started.
+This unit testing approach complements the integration tests (powered by Testcontainers), providing both isolated logic verification and realistic end-to-end scenarios.
+
+- Integration Testing with Testcontainers
+The project leverages Testcontainers to perform realistic integration testing of REST controllers and service layers.
+Instead of relying on in-memory database MySQL, the tests spin up real service instances (PostgreSQL) in lightweight, disposable Docker containers.
+
+Tests run minimizing environment-specific issues.
+Each test execution is isolated and starts with a clean, reproducible state.
+Containers are started automatically before the test suite and stopped afterwards, requiring no manual setup.
+By using Testcontainers, the integration tests closely mirror production behavior, improving reliability and confidence in the application’s correctness.
+
+Note:
+Running the integration tests requires Docker to be installed and running on your system.
+If Docker is not available, Testcontainers will not be able to start the required services, and the tests will fail.
 
 ## ERR Diagram
 [![temp-Image-UR4-NJP.avif](https://i.postimg.cc/Hkyv3TPZ/temp-Image-UR4-NJP.avif)](https://postimg.cc/21CxSNYh)
